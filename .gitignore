@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.dev.vars
+.env
+.env.*
+.wrangler/
+*.log
+
+# Local installers / binaries (never commit)
+*.exe
+
+# Claude Code local-only settings (machine-specific)
+.claude/settings.local.json

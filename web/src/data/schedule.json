@@ -1,0 +1,37 @@
+{
+  "R32#1":  { "date": "Jun 28", "time": "12:00", "city": "Inglewood" },
+  "R32#2":  { "date": "Jun 29", "time": "12:00", "city": "Houston" },
+  "R32#3":  { "date": "Jun 29", "time": "16:30", "city": "Foxborough" },
+  "R32#4":  { "date": "Jun 29", "time": "19:00", "city": "Guadalupe" },
+  "R32#5":  { "date": "Jun 30", "time": "12:00", "city": "Arlington" },
+  "R32#6":  { "date": "Jun 30", "time": "17:00", "city": "East Rutherford" },
+  "R32#7":  { "date": "Jun 30", "time": "19:00", "city": "Mexico City" },
+  "R32#8":  { "date": "Jul 1",  "time": "12:00", "city": "Atlanta" },
+  "R32#9":  { "date": "Jul 1",  "time": "13:00", "city": "Seattle" },
+  "R32#10": { "date": "Jul 1",  "time": "17:00", "city": "Santa Clara" },
+  "R32#11": { "date": "Jul 2",  "time": "12:00", "city": "Inglewood" },
+  "R32#12": { "date": "Jul 2",  "time": "19:00", "city": "Toronto" },
+  "R32#13": { "date": "Jul 2",  "time": "20:00", "city": "Vancouver" },
+  "R32#14": { "date": "Jul 3",  "time": "13:00", "city": "Arlington" },
+  "R32#15": { "date": "Jul 3",  "time": "18:00", "city": "Miami" },
+  "R32#16": { "date": "Jul 3",  "time": "20:30", "city": "Kansas City" },
+
+  "R16#1": { "date": "Jul 4", "time": "12:00", "city": "Houston" },
+  "R16#2": { "date": "Jul 4", "time": "17:00", "city": "Philadelphia" },
+  "R16#3": { "date": "Jul 5", "time": "16:00", "city": "East Rutherford" },
+  "R16#4": { "date": "Jul 5", "time": "18:00", "city": "Mexico City" },
+  "R16#5": { "date": "Jul 6", "time": "14:00", "city": "Arlington" },
+  "R16#6": { "date": "Jul 6", "time": "17:00", "city": "Seattle" },
+  "R16#7": { "date": "Jul 7", "time": "12:00", "city": "Atlanta" },
+  "R16#8": { "date": "Jul 7", "time": "13:00", "city": "Vancouver" },
+
+  "QF#1": { "date": "Jul 9",  "time": "16:00", "city": "Foxborough" },
+  "QF#2": { "date": "Jul 10", "time": "12:00", "city": "Inglewood" },
+  "QF#3": { "date": "Jul 11", "time": "17:00", "city": "Miami" },
+  "QF#4": { "date": "Jul 11", "time": "20:00", "city": "Kansas City" },
+
+  "SF#1": { "date": "Jul 14", "time": "14:00", "city": "Arlington" },
+  "SF#2": { "date": "Jul 15", "time": "15:00", "city": "Atlanta" },
+
+  "F#1": { "date": "Jul 19", "time": "15:00", "city": "East Rutherford" }
+}

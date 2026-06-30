@@ -1,0 +1,1202 @@
+[
+ {
+  "name": "Nicole L",
+  "total": 37,
+  "teams": [
+   {
+    "name": "Argentina",
+    "tier": 1,
+    "group": "J",
+    "gp": 9,
+    "alive": true
+   },
+   {
+    "name": "Netherlands",
+    "tier": 2,
+    "group": "F",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Switzerland",
+    "tier": 3,
+    "group": "B",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Norway",
+    "tier": 4,
+    "group": "I",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "South Africa",
+    "tier": 5,
+    "group": "A",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Ghana",
+    "tier": 6,
+    "group": "L",
+    "gp": 4,
+    "alive": true
+   }
+  ]
+ },
+ {
+  "name": "Emily B",
+  "total": 32,
+  "teams": [
+   {
+    "name": "Argentina",
+    "tier": 1,
+    "group": "J",
+    "gp": 9,
+    "alive": true
+   },
+   {
+    "name": "Mexico",
+    "tier": 2,
+    "group": "A",
+    "gp": 9,
+    "alive": true
+   },
+   {
+    "name": "Japan",
+    "tier": 3,
+    "group": "F",
+    "gp": 5,
+    "alive": true
+   },
+   {
+    "name": "Canada",
+    "tier": 4,
+    "group": "B",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "South Africa",
+    "tier": 5,
+    "group": "A",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "New Zealand",
+    "tier": 6,
+    "group": "G",
+    "gp": 1,
+    "alive": false
+   }
+  ]
+ },
+ {
+  "name": "Logan S",
+  "total": 32,
+  "teams": [
+   {
+    "name": "Argentina",
+    "tier": 1,
+    "group": "J",
+    "gp": 9,
+    "alive": true
+   },
+   {
+    "name": "United States",
+    "tier": 2,
+    "group": "D",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Japan",
+    "tier": 3,
+    "group": "F",
+    "gp": 5,
+    "alive": true
+   },
+   {
+    "name": "Algeria",
+    "tier": 4,
+    "group": "J",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "South Africa",
+    "tier": 5,
+    "group": "A",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Ghana",
+    "tier": 6,
+    "group": "L",
+    "gp": 4,
+    "alive": true
+   }
+  ]
+ },
+ {
+  "name": "Wob W",
+  "total": 32,
+  "teams": [
+   {
+    "name": "France",
+    "tier": 1,
+    "group": "I",
+    "gp": 9,
+    "alive": true
+   },
+   {
+    "name": "Germany",
+    "tier": 2,
+    "group": "E",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Ecuador",
+    "tier": 3,
+    "group": "E",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Ivory Coast",
+    "tier": 4,
+    "group": "E",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Scotland",
+    "tier": 5,
+    "group": "C",
+    "gp": 3,
+    "alive": false
+   },
+   {
+    "name": "Bosnia and Herzegovina",
+    "tier": 6,
+    "group": "B",
+    "gp": 4,
+    "alive": true
+   }
+  ]
+ },
+ {
+  "name": "Fred S",
+  "total": 31,
+  "teams": [
+   {
+    "name": "Spain",
+    "tier": 1,
+    "group": "H",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Germany",
+    "tier": 2,
+    "group": "E",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Japan",
+    "tier": 3,
+    "group": "F",
+    "gp": 5,
+    "alive": true
+   },
+   {
+    "name": "Norway",
+    "tier": 4,
+    "group": "I",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Scotland",
+    "tier": 5,
+    "group": "C",
+    "gp": 3,
+    "alive": false
+   },
+   {
+    "name": "Ghana",
+    "tier": 6,
+    "group": "L",
+    "gp": 4,
+    "alive": true
+   }
+  ]
+ },
+ {
+  "name": "Noah P",
+  "total": 31,
+  "teams": [
+   {
+    "name": "Argentina",
+    "tier": 1,
+    "group": "J",
+    "gp": 9,
+    "alive": true
+   },
+   {
+    "name": "Netherlands",
+    "tier": 2,
+    "group": "F",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Japan",
+    "tier": 3,
+    "group": "F",
+    "gp": 5,
+    "alive": true
+   },
+   {
+    "name": "Egypt",
+    "tier": 4,
+    "group": "G",
+    "gp": 5,
+    "alive": true
+   },
+   {
+    "name": "Qatar",
+    "tier": 5,
+    "group": "B",
+    "gp": 1,
+    "alive": false
+   },
+   {
+    "name": "Bosnia and Herzegovina",
+    "tier": 6,
+    "group": "B",
+    "gp": 4,
+    "alive": true
+   }
+  ]
+ },
+ {
+  "name": "Colin S",
+  "total": 30,
+  "teams": [
+   {
+    "name": "Spain",
+    "tier": 1,
+    "group": "H",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Germany",
+    "tier": 2,
+    "group": "E",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Ecuador",
+    "tier": 3,
+    "group": "E",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Norway",
+    "tier": 4,
+    "group": "I",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Scotland",
+    "tier": 5,
+    "group": "C",
+    "gp": 3,
+    "alive": false
+   },
+   {
+    "name": "Bosnia and Herzegovina",
+    "tier": 6,
+    "group": "B",
+    "gp": 4,
+    "alive": true
+   }
+  ]
+ },
+ {
+  "name": "Colton S",
+  "total": 29,
+  "teams": [
+   {
+    "name": "Argentina",
+    "tier": 1,
+    "group": "J",
+    "gp": 9,
+    "alive": true
+   },
+   {
+    "name": "Netherlands",
+    "tier": 2,
+    "group": "F",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Switzerland",
+    "tier": 3,
+    "group": "B",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Paraguay",
+    "tier": 4,
+    "group": "D",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Uzbekistan",
+    "tier": 5,
+    "group": "K",
+    "gp": 0,
+    "alive": false
+   },
+   {
+    "name": "Saudi Arabia",
+    "tier": 6,
+    "group": "H",
+    "gp": 2,
+    "alive": false
+   }
+  ]
+ },
+ {
+  "name": "Joel P",
+  "total": 29,
+  "teams": [
+   {
+    "name": "France",
+    "tier": 1,
+    "group": "I",
+    "gp": 9,
+    "alive": true
+   },
+   {
+    "name": "Germany",
+    "tier": 2,
+    "group": "E",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Japan",
+    "tier": 3,
+    "group": "F",
+    "gp": 5,
+    "alive": true
+   },
+   {
+    "name": "Sweden",
+    "tier": 4,
+    "group": "F",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Czechia",
+    "tier": 5,
+    "group": "A",
+    "gp": 1,
+    "alive": false
+   },
+   {
+    "name": "Bosnia and Herzegovina",
+    "tier": 6,
+    "group": "B",
+    "gp": 4,
+    "alive": true
+   }
+  ]
+ },
+ {
+  "name": "Justin L",
+  "total": 29,
+  "teams": [
+   {
+    "name": "Argentina",
+    "tier": 1,
+    "group": "J",
+    "gp": 9,
+    "alive": true
+   },
+   {
+    "name": "Mexico",
+    "tier": 2,
+    "group": "A",
+    "gp": 9,
+    "alive": true
+   },
+   {
+    "name": "South Korea",
+    "tier": 3,
+    "group": "A",
+    "gp": 3,
+    "alive": false
+   },
+   {
+    "name": "Paraguay",
+    "tier": 4,
+    "group": "D",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "DR Congo",
+    "tier": 5,
+    "group": "K",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Haiti",
+    "tier": 6,
+    "group": "C",
+    "gp": 0,
+    "alive": false
+   }
+  ]
+ },
+ {
+  "name": "Paul H",
+  "total": 29,
+  "teams": [
+   {
+    "name": "Argentina",
+    "tier": 1,
+    "group": "J",
+    "gp": 9,
+    "alive": true
+   },
+   {
+    "name": "Germany",
+    "tier": 2,
+    "group": "E",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Switzerland",
+    "tier": 3,
+    "group": "B",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Canada",
+    "tier": 4,
+    "group": "B",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Qatar",
+    "tier": 5,
+    "group": "B",
+    "gp": 1,
+    "alive": false
+   },
+   {
+    "name": "Saudi Arabia",
+    "tier": 6,
+    "group": "H",
+    "gp": 2,
+    "alive": false
+   }
+  ]
+ },
+ {
+  "name": "Susan S",
+  "total": 29,
+  "teams": [
+   {
+    "name": "England",
+    "tier": 1,
+    "group": "L",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Netherlands",
+    "tier": 2,
+    "group": "F",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Austria",
+    "tier": 3,
+    "group": "J",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Ivory Coast",
+    "tier": 4,
+    "group": "E",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "South Africa",
+    "tier": 5,
+    "group": "A",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "New Zealand",
+    "tier": 6,
+    "group": "G",
+    "gp": 1,
+    "alive": false
+   }
+  ]
+ },
+ {
+  "name": "Tony M",
+  "total": 29,
+  "teams": [
+   {
+    "name": "Brazil",
+    "tier": 1,
+    "group": "C",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Germany",
+    "tier": 2,
+    "group": "E",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Japan",
+    "tier": 3,
+    "group": "F",
+    "gp": 5,
+    "alive": true
+   },
+   {
+    "name": "Norway",
+    "tier": 4,
+    "group": "I",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Czechia",
+    "tier": 5,
+    "group": "A",
+    "gp": 1,
+    "alive": false
+   },
+   {
+    "name": "Bosnia and Herzegovina",
+    "tier": 6,
+    "group": "B",
+    "gp": 4,
+    "alive": true
+   }
+  ]
+ },
+ {
+  "name": "Erin C",
+  "total": 28,
+  "teams": [
+   {
+    "name": "Brazil",
+    "tier": 1,
+    "group": "C",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Germany",
+    "tier": 2,
+    "group": "E",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Ecuador",
+    "tier": 3,
+    "group": "E",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Norway",
+    "tier": 4,
+    "group": "I",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Czechia",
+    "tier": 5,
+    "group": "A",
+    "gp": 1,
+    "alive": false
+   },
+   {
+    "name": "Bosnia and Herzegovina",
+    "tier": 6,
+    "group": "B",
+    "gp": 4,
+    "alive": true
+   }
+  ]
+ },
+ {
+  "name": "Laurel S",
+  "total": 27,
+  "teams": [
+   {
+    "name": "France",
+    "tier": 1,
+    "group": "I",
+    "gp": 9,
+    "alive": true
+   },
+   {
+    "name": "Netherlands",
+    "tier": 2,
+    "group": "F",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "South Korea",
+    "tier": 3,
+    "group": "A",
+    "gp": 3,
+    "alive": false
+   },
+   {
+    "name": "Algeria",
+    "tier": 4,
+    "group": "J",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Scotland",
+    "tier": 5,
+    "group": "C",
+    "gp": 3,
+    "alive": false
+   },
+   {
+    "name": "Curaçao",
+    "tier": 6,
+    "group": "E",
+    "gp": 1,
+    "alive": false
+   }
+  ]
+ },
+ {
+  "name": "LQ P",
+  "total": 27,
+  "teams": [
+   {
+    "name": "Spain",
+    "tier": 1,
+    "group": "H",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Netherlands",
+    "tier": 2,
+    "group": "F",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Japan",
+    "tier": 3,
+    "group": "F",
+    "gp": 5,
+    "alive": true
+   },
+   {
+    "name": "Norway",
+    "tier": 4,
+    "group": "I",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Czechia",
+    "tier": 5,
+    "group": "A",
+    "gp": 1,
+    "alive": false
+   },
+   {
+    "name": "New Zealand",
+    "tier": 6,
+    "group": "G",
+    "gp": 1,
+    "alive": false
+   }
+  ]
+ },
+ {
+  "name": "Stephanie D",
+  "total": 27,
+  "teams": [
+   {
+    "name": "France",
+    "tier": 1,
+    "group": "I",
+    "gp": 9,
+    "alive": true
+   },
+   {
+    "name": "Germany",
+    "tier": 2,
+    "group": "E",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Australia",
+    "tier": 3,
+    "group": "D",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Sweden",
+    "tier": 4,
+    "group": "F",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Scotland",
+    "tier": 5,
+    "group": "C",
+    "gp": 3,
+    "alive": false
+   },
+   {
+    "name": "New Zealand",
+    "tier": 6,
+    "group": "G",
+    "gp": 1,
+    "alive": false
+   }
+  ]
+ },
+ {
+  "name": "Badr H",
+  "total": 26,
+  "teams": [
+   {
+    "name": "Spain",
+    "tier": 1,
+    "group": "H",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Croatia",
+    "tier": 2,
+    "group": "L",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Japan",
+    "tier": 3,
+    "group": "F",
+    "gp": 5,
+    "alive": true
+   },
+   {
+    "name": "Algeria",
+    "tier": 4,
+    "group": "J",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Tunisia",
+    "tier": 5,
+    "group": "F",
+    "gp": 0,
+    "alive": false
+   },
+   {
+    "name": "Ghana",
+    "tier": 6,
+    "group": "L",
+    "gp": 4,
+    "alive": true
+   }
+  ]
+ },
+ {
+  "name": "Desirae J",
+  "total": 26,
+  "teams": [
+   {
+    "name": "Portugal",
+    "tier": 1,
+    "group": "K",
+    "gp": 5,
+    "alive": true
+   },
+   {
+    "name": "Mexico",
+    "tier": 2,
+    "group": "A",
+    "gp": 9,
+    "alive": true
+   },
+   {
+    "name": "Switzerland",
+    "tier": 3,
+    "group": "B",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Sweden",
+    "tier": 4,
+    "group": "F",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Czechia",
+    "tier": 5,
+    "group": "A",
+    "gp": 1,
+    "alive": false
+   },
+   {
+    "name": "Haiti",
+    "tier": 6,
+    "group": "C",
+    "gp": 0,
+    "alive": false
+   }
+  ]
+ },
+ {
+  "name": "Jake D",
+  "total": 26,
+  "teams": [
+   {
+    "name": "England",
+    "tier": 1,
+    "group": "L",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Netherlands",
+    "tier": 2,
+    "group": "F",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "South Korea",
+    "tier": 3,
+    "group": "A",
+    "gp": 3,
+    "alive": false
+   },
+   {
+    "name": "Ivory Coast",
+    "tier": 4,
+    "group": "E",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Scotland",
+    "tier": 5,
+    "group": "C",
+    "gp": 3,
+    "alive": false
+   },
+   {
+    "name": "Haiti",
+    "tier": 6,
+    "group": "C",
+    "gp": 0,
+    "alive": false
+   }
+  ]
+ },
+ {
+  "name": "James M",
+  "total": 26,
+  "teams": [
+   {
+    "name": "Brazil",
+    "tier": 1,
+    "group": "C",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Germany",
+    "tier": 2,
+    "group": "E",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "South Korea",
+    "tier": 3,
+    "group": "A",
+    "gp": 3,
+    "alive": false
+   },
+   {
+    "name": "Paraguay",
+    "tier": 4,
+    "group": "D",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "South Africa",
+    "tier": 5,
+    "group": "A",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Saudi Arabia",
+    "tier": 6,
+    "group": "H",
+    "gp": 2,
+    "alive": false
+   }
+  ]
+ },
+ {
+  "name": "KC F",
+  "total": 25,
+  "teams": [
+   {
+    "name": "Spain",
+    "tier": 1,
+    "group": "H",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Germany",
+    "tier": 2,
+    "group": "E",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Japan",
+    "tier": 3,
+    "group": "F",
+    "gp": 5,
+    "alive": true
+   },
+   {
+    "name": "Algeria",
+    "tier": 4,
+    "group": "J",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Scotland",
+    "tier": 5,
+    "group": "C",
+    "gp": 3,
+    "alive": false
+   },
+   {
+    "name": "Jordan",
+    "tier": 6,
+    "group": "J",
+    "gp": 0,
+    "alive": false
+   }
+  ]
+ },
+ {
+  "name": "Kam M",
+  "total": 23,
+  "teams": [
+   {
+    "name": "Brazil",
+    "tier": 1,
+    "group": "C",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Colombia",
+    "tier": 2,
+    "group": "K",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Ecuador",
+    "tier": 3,
+    "group": "E",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Panama",
+    "tier": 4,
+    "group": "L",
+    "gp": 0,
+    "alive": false
+   },
+   {
+    "name": "South Africa",
+    "tier": 5,
+    "group": "A",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "New Zealand",
+    "tier": 6,
+    "group": "G",
+    "gp": 1,
+    "alive": false
+   }
+  ]
+ },
+ {
+  "name": "Megan T",
+  "total": 23,
+  "teams": [
+   {
+    "name": "Spain",
+    "tier": 1,
+    "group": "H",
+    "gp": 7,
+    "alive": true
+   },
+   {
+    "name": "Germany",
+    "tier": 2,
+    "group": "E",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Japan",
+    "tier": 3,
+    "group": "F",
+    "gp": 5,
+    "alive": true
+   },
+   {
+    "name": "Paraguay",
+    "tier": 4,
+    "group": "D",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Qatar",
+    "tier": 5,
+    "group": "B",
+    "gp": 1,
+    "alive": false
+   },
+   {
+    "name": "Jordan",
+    "tier": 6,
+    "group": "J",
+    "gp": 0,
+    "alive": false
+   }
+  ]
+ },
+ {
+  "name": "Taylor S",
+  "total": 23,
+  "teams": [
+   {
+    "name": "Portugal",
+    "tier": 1,
+    "group": "K",
+    "gp": 5,
+    "alive": true
+   },
+   {
+    "name": "Germany",
+    "tier": 2,
+    "group": "E",
+    "gp": 6,
+    "alive": true
+   },
+   {
+    "name": "Australia",
+    "tier": 3,
+    "group": "D",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Sweden",
+    "tier": 4,
+    "group": "F",
+    "gp": 4,
+    "alive": true
+   },
+   {
+    "name": "Tunisia",
+    "tier": 5,
+    "group": "F",
+    "gp": 0,
+    "alive": false
+   },
+   {
+    "name": "Ghana",
+    "tier": 6,
+    "group": "L",
+    "gp": 4,
+    "alive": true
+   }
+  ]
+ }
+]

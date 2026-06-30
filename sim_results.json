@@ -1,0 +1,841 @@
+{
+  "n": 200000,
+  "elo": {
+    "Spain": 2144,
+    "Argentina": 2144,
+    "France": 2123,
+    "England": 2028,
+    "Brazil": 2009,
+    "Netherlands": 2030,
+    "Portugal": 2010,
+    "Colombia": 1990,
+    "Croatia": 1970,
+    "Germany": 1965,
+    "Belgium": 1935,
+    "Morocco": 1925,
+    "Japan": 1875,
+    "Switzerland": 1860,
+    "Senegal": 1855,
+    "Norway": 1850,
+    "Ecuador": 1850,
+    "Austria": 1845,
+    "Sweden": 1815,
+    "USA": 1810,
+    "United States": 1810,
+    "Mexico": 1800,
+    "Algeria": 1785,
+    "Ivory Coast": 1770,
+    "Canada": 1765,
+    "Paraguay": 1760,
+    "Bosnia and Herzegovina": 1760,
+    "Egypt": 1755,
+    "Australia": 1745,
+    "South Africa": 1730,
+    "Ghana": 1720,
+    "DR Congo": 1715,
+    "Cape Verde": 1650
+  },
+  "r32": [
+    [
+      "South Africa",
+      "Canada"
+    ],
+    [
+      "Brazil",
+      "Japan"
+    ],
+    [
+      "Germany",
+      "Paraguay"
+    ],
+    [
+      "Netherlands",
+      "Morocco"
+    ],
+    [
+      "Ivory Coast",
+      "Norway"
+    ],
+    [
+      "France",
+      "Sweden"
+    ],
+    [
+      "Mexico",
+      "Ecuador"
+    ],
+    [
+      "England",
+      "DR Congo"
+    ],
+    [
+      "Belgium",
+      "Senegal"
+    ],
+    [
+      "United States",
+      "Bosnia and Herzegovina"
+    ],
+    [
+      "Spain",
+      "Austria"
+    ],
+    [
+      "Portugal",
+      "Croatia"
+    ],
+    [
+      "Switzerland",
+      "Algeria"
+    ],
+    [
+      "Australia",
+      "Egypt"
+    ],
+    [
+      "Argentina",
+      "Cape Verde"
+    ],
+    [
+      "Colombia",
+      "Ghana"
+    ]
+  ],
+  "r16": [
+    [
+      1,
+      4
+    ],
+    [
+      3,
+      6
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      7,
+      8
+    ],
+    [
+      12,
+      11
+    ],
+    [
+      10,
+      9
+    ],
+    [
+      15,
+      14
+    ],
+    [
+      13,
+      16
+    ]
+  ],
+  "qf": [
+    [
+      2,
+      1
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      3,
+      4
+    ],
+    [
+      7,
+      8
+    ]
+  ],
+  "sf": [
+    [
+      1,
+      2
+    ],
+    [
+      3,
+      4
+    ]
+  ],
+  "players": [
+    {
+      "name": "Nicole L",
+      "total": 37,
+      "teams": [
+        "Argentina",
+        "Netherlands",
+        "Switzerland",
+        "Norway",
+        "South Africa",
+        "Ghana"
+      ]
+    },
+    {
+      "name": "Emily B",
+      "total": 32,
+      "teams": [
+        "Argentina",
+        "Mexico",
+        "Japan",
+        "Canada",
+        "South Africa",
+        "New Zealand"
+      ]
+    },
+    {
+      "name": "Logan S",
+      "total": 32,
+      "teams": [
+        "Argentina",
+        "United States",
+        "Japan",
+        "Algeria",
+        "South Africa",
+        "Ghana"
+      ]
+    },
+    {
+      "name": "Wob W",
+      "total": 32,
+      "teams": [
+        "France",
+        "Germany",
+        "Ecuador",
+        "Ivory Coast",
+        "Scotland",
+        "Bosnia and Herzegovina"
+      ]
+    },
+    {
+      "name": "Fred S",
+      "total": 31,
+      "teams": [
+        "Spain",
+        "Germany",
+        "Japan",
+        "Norway",
+        "Scotland",
+        "Ghana"
+      ]
+    },
+    {
+      "name": "Noah P",
+      "total": 31,
+      "teams": [
+        "Argentina",
+        "Netherlands",
+        "Japan",
+        "Egypt",
+        "Qatar",
+        "Bosnia and Herzegovina"
+      ]
+    },
+    {
+      "name": "Colin S",
+      "total": 30,
+      "teams": [
+        "Spain",
+        "Germany",
+        "Ecuador",
+        "Norway",
+        "Scotland",
+        "Bosnia and Herzegovina"
+      ]
+    },
+    {
+      "name": "Colton S",
+      "total": 29,
+      "teams": [
+        "Argentina",
+        "Netherlands",
+        "Switzerland",
+        "Paraguay",
+        "Uzbekistan",
+        "Saudi Arabia"
+      ]
+    },
+    {
+      "name": "Joel P",
+      "total": 29,
+      "teams": [
+        "France",
+        "Germany",
+        "Japan",
+        "Sweden",
+        "Czechia",
+        "Bosnia and Herzegovina"
+      ]
+    },
+    {
+      "name": "Justin L",
+      "total": 29,
+      "teams": [
+        "Argentina",
+        "Mexico",
+        "South Korea",
+        "Paraguay",
+        "DR Congo",
+        "Haiti"
+      ]
+    },
+    {
+      "name": "Paul H",
+      "total": 29,
+      "teams": [
+        "Argentina",
+        "Germany",
+        "Switzerland",
+        "Canada",
+        "Qatar",
+        "Saudi Arabia"
+      ]
+    },
+    {
+      "name": "Susan S",
+      "total": 29,
+      "teams": [
+        "England",
+        "Netherlands",
+        "Austria",
+        "Ivory Coast",
+        "South Africa",
+        "New Zealand"
+      ]
+    },
+    {
+      "name": "Tony M",
+      "total": 29,
+      "teams": [
+        "Brazil",
+        "Germany",
+        "Japan",
+        "Norway",
+        "Czechia",
+        "Bosnia and Herzegovina"
+      ]
+    },
+    {
+      "name": "Erin C",
+      "total": 28,
+      "teams": [
+        "Brazil",
+        "Germany",
+        "Ecuador",
+        "Norway",
+        "Czechia",
+        "Bosnia and Herzegovina"
+      ]
+    },
+    {
+      "name": "Laurel S",
+      "total": 27,
+      "teams": [
+        "France",
+        "Netherlands",
+        "South Korea",
+        "Algeria",
+        "Scotland",
+        "Cura\u00e7ao"
+      ]
+    },
+    {
+      "name": "LQ P",
+      "total": 27,
+      "teams": [
+        "Spain",
+        "Netherlands",
+        "Japan",
+        "Norway",
+        "Czechia",
+        "New Zealand"
+      ]
+    },
+    {
+      "name": "Stephanie D",
+      "total": 27,
+      "teams": [
+        "France",
+        "Germany",
+        "Australia",
+        "Sweden",
+        "Scotland",
+        "New Zealand"
+      ]
+    },
+    {
+      "name": "Badr H",
+      "total": 26,
+      "teams": [
+        "Spain",
+        "Croatia",
+        "Japan",
+        "Algeria",
+        "Tunisia",
+        "Ghana"
+      ]
+    },
+    {
+      "name": "Desirae J",
+      "total": 26,
+      "teams": [
+        "Portugal",
+        "Mexico",
+        "Switzerland",
+        "Sweden",
+        "Czechia",
+        "Haiti"
+      ]
+    },
+    {
+      "name": "Jake D",
+      "total": 26,
+      "teams": [
+        "England",
+        "Netherlands",
+        "South Korea",
+        "Ivory Coast",
+        "Scotland",
+        "Haiti"
+      ]
+    },
+    {
+      "name": "James M",
+      "total": 26,
+      "teams": [
+        "Brazil",
+        "Germany",
+        "South Korea",
+        "Paraguay",
+        "South Africa",
+        "Saudi Arabia"
+      ]
+    },
+    {
+      "name": "KC F",
+      "total": 25,
+      "teams": [
+        "Spain",
+        "Germany",
+        "Japan",
+        "Algeria",
+        "Scotland",
+        "Jordan"
+      ]
+    },
+    {
+      "name": "Kam M",
+      "total": 23,
+      "teams": [
+        "Brazil",
+        "Colombia",
+        "Ecuador",
+        "Panama",
+        "South Africa",
+        "New Zealand"
+      ]
+    },
+    {
+      "name": "Megan T",
+      "total": 23,
+      "teams": [
+        "Spain",
+        "Germany",
+        "Japan",
+        "Paraguay",
+        "Qatar",
+        "Jordan"
+      ]
+    },
+    {
+      "name": "Taylor S",
+      "total": 23,
+      "teams": [
+        "Portugal",
+        "Germany",
+        "Australia",
+        "Sweden",
+        "Tunisia",
+        "Ghana"
+      ]
+    }
+  ],
+  "champ_prob": {
+    "Argentina": 0.286395,
+    "France": 0.163455,
+    "Colombia": 0.04504,
+    "Spain": 0.191085,
+    "Portugal": 0.029025,
+    "England": 0.08231,
+    "Netherlands": 0.05664,
+    "Brazil": 0.05054,
+    "Belgium": 0.016825,
+    "Croatia": 0.01482,
+    "Ecuador": 0.004365,
+    "Switzerland": 0.004975,
+    "Norway": 0.004345,
+    "Germany": 0.020685,
+    "Japan": 0.00529,
+    "Senegal": 0.003485,
+    "United States": 0.00182,
+    "Algeria": 0.000945,
+    "Morocco": 0.01001,
+    "Ghana": 0.00024,
+    "Ivory Coast": 0.00077,
+    "South Africa": 0.00032,
+    "Bosnia and Herzegovina": 0.000615,
+    "Australia": 0.000575,
+    "Canada": 0.000655,
+    "Sweden": 0.000815,
+    "Mexico": 0.00129,
+    "Paraguay": 0.000285,
+    "Austria": 0.00147,
+    "Egypt": 0.00066,
+    "DR Congo": 0.00018,
+    "Cape Verde": 7e-05
+  },
+  "pool_win": {
+    "Nicole L": 0.5598341666666653,
+    "Emily B": 0.03270233333333312,
+    "Logan S": 0.06443350000000035,
+    "Wob W": 0.09531391666666686,
+    "Fred S": 0.038935833333333246,
+    "Noah P": 0.03652916666666657,
+    "Colin S": 0.0653375,
+    "Colton S": 0.001057916666666667,
+    "Joel P": 0.006886999999999992,
+    "Justin L": 0.0013399166666666676,
+    "Paul H": 0.02449258333333333,
+    "Susan S": 0.027543166666666626,
+    "Tony M": 0.007793416666666658,
+    "Erin C": 0.014780000000000008,
+    "Laurel S": 0.002735,
+    "LQ P": 0.0039525,
+    "Stephanie D": 0.001635,
+    "Badr H": 0.002256166666666665,
+    "Desirae J": 0.0014658333333333337,
+    "Jake D": 0.0,
+    "James M": 0.0007450833333333332,
+    "KC F": 0.0010608333333333333,
+    "Kam M": 0.008044999999999993,
+    "Megan T": 4.333333333333333e-05,
+    "Taylor S": 0.0010808333333333338
+  },
+  "pool_outright": {
+    "Nicole L": 0.542985,
+    "Emily B": 0.025275,
+    "Logan S": 0.056195,
+    "Wob W": 0.086115,
+    "Fred S": 0.032895,
+    "Noah P": 0.02576,
+    "Colin S": 0.06505,
+    "Colton S": 0.000895,
+    "Joel P": 0.003935,
+    "Justin L": 0.000735,
+    "Paul H": 0.02112,
+    "Susan S": 0.0245,
+    "Tony M": 0.0065,
+    "Erin C": 0.01285,
+    "Laurel S": 0.002655,
+    "LQ P": 0.00367,
+    "Stephanie D": 0.00155,
+    "Badr H": 0.001655,
+    "Desirae J": 0.00116,
+    "Jake D": 0.0,
+    "James M": 0.000345,
+    "KC F": 0.000745,
+    "Kam M": 0.00626,
+    "Megan T": 3.5e-05,
+    "Taylor S": 0.000835
+  },
+  "exp_final": {
+    "Nicole L": 59.43274,
+    "Emily B": 48.98207,
+    "Logan S": 49.95884,
+    "Wob W": 48.81434,
+    "Fred S": 47.36299,
+    "Noah P": 50.900635,
+    "Colin S": 48.14004,
+    "Colton S": 47.1455,
+    "Joel P": 44.17319,
+    "Justin L": 41.906255,
+    "Paul H": 47.261015,
+    "Susan S": 44.28452,
+    "Tony M": 44.001005,
+    "Erin C": 43.75345,
+    "Laurel S": 40.69038,
+    "LQ P": 43.751355,
+    "Stephanie D": 40.308975,
+    "Badr H": 39.66938,
+    "Desirae J": 34.226105,
+    "Jake D": 38.969195,
+    "James M": 37.169525,
+    "KC F": 39.47413,
+    "Kam M": 37.51016,
+    "Megan T": 36.716705,
+    "Taylor S": 32.848715
+  },
+  "team_round_probs": {
+    "Algeria": {
+      "0": 0.606225,
+      "1": 0.27718,
+      "2": 0.0962,
+      "3": 0.014605,
+      "4": 0.004845,
+      "5": 0.000945
+    },
+    "Mexico": {
+      "0": 0.571375,
+      "1": 0.31373,
+      "2": 0.07647,
+      "3": 0.031325,
+      "4": 0.00581,
+      "5": 0.00129
+    },
+    "Spain": {
+      "0": 0.15089,
+      "1": 0.25162,
+      "2": 0.104575,
+      "3": 0.18038,
+      "4": 0.12145,
+      "5": 0.191085
+    },
+    "Croatia": {
+      "0": 0.56,
+      "1": 0.29455,
+      "2": 0.05225,
+      "3": 0.055155,
+      "4": 0.023225,
+      "5": 0.01482
+    },
+    "Canada": {
+      "0": 0.448845,
+      "1": 0.431395,
+      "2": 0.09858,
+      "3": 0.01715,
+      "4": 0.003375,
+      "5": 0.000655
+    },
+    "Brazil": {
+      "0": 0.318825,
+      "1": 0.173625,
+      "2": 0.21927,
+      "3": 0.16822,
+      "4": 0.06952,
+      "5": 0.05054
+    },
+    "Netherlands": {
+      "0": 0.352575,
+      "1": 0.10813,
+      "2": 0.287735,
+      "3": 0.12967,
+      "4": 0.06525,
+      "5": 0.05664
+    },
+    "Belgium": {
+      "0": 0.388645,
+      "1": 0.184165,
+      "2": 0.291675,
+      "3": 0.086475,
+      "4": 0.032215,
+      "5": 0.016825
+    },
+    "Colombia": {
+      "0": 0.17365,
+      "1": 0.237485,
+      "2": 0.37239,
+      "3": 0.102405,
+      "4": 0.06903,
+      "5": 0.04504
+    },
+    "Ghana": {
+      "0": 0.82635,
+      "1": 0.113575,
+      "2": 0.051985,
+      "3": 0.00635,
+      "4": 0.0015,
+      "5": 0.00024
+    },
+    "Switzerland": {
+      "0": 0.393775,
+      "1": 0.37176,
+      "2": 0.17942,
+      "3": 0.035165,
+      "4": 0.014905,
+      "5": 0.004975
+    },
+    "Austria": {
+      "0": 0.84911,
+      "1": 0.10522,
+      "2": 0.02459,
+      "3": 0.0154,
+      "4": 0.00421,
+      "5": 0.00147
+    },
+    "Sweden": {
+      "0": 0.85545,
+      "1": 0.09223,
+      "2": 0.034915,
+      "3": 0.01332,
+      "4": 0.00327,
+      "5": 0.000815
+    },
+    "Australia": {
+      "0": 0.51473,
+      "1": 0.42667,
+      "2": 0.042325,
+      "3": 0.012555,
+      "4": 0.003145,
+      "5": 0.000575
+    },
+    "Ivory Coast": {
+      "0": 0.613235,
+      "1": 0.28934,
+      "2": 0.07146,
+      "3": 0.02148,
+      "4": 0.003715,
+      "5": 0.00077
+    },
+    "France": {
+      "0": 0.14455,
+      "1": 0.210235,
+      "2": 0.181405,
+      "3": 0.18259,
+      "4": 0.117765,
+      "5": 0.163455
+    },
+    "Morocco": {
+      "0": 0.647425,
+      "1": 0.094825,
+      "2": 0.17148,
+      "3": 0.055605,
+      "4": 0.020655,
+      "5": 0.01001
+    },
+    "United States": {
+      "0": 0.42883,
+      "1": 0.36102,
+      "2": 0.170835,
+      "3": 0.03036,
+      "4": 0.007135,
+      "5": 0.00182
+    },
+    "Portugal": {
+      "0": 0.44,
+      "1": 0.34861,
+      "2": 0.066,
+      "3": 0.07926,
+      "4": 0.037105,
+      "5": 0.029025
+    },
+    "Argentina": {
+      "0": 0.05559,
+      "1": 0.088735,
+      "2": 0.19482,
+      "3": 0.182115,
+      "4": 0.192345,
+      "5": 0.286395
+    },
+    "England": {
+      "0": 0.13954,
+      "1": 0.20724,
+      "2": 0.240735,
+      "3": 0.230115,
+      "4": 0.10006,
+      "5": 0.08231
+    },
+    "Norway": {
+      "0": 0.386765,
+      "1": 0.402675,
+      "2": 0.133525,
+      "3": 0.058885,
+      "4": 0.013805,
+      "5": 0.004345
+    },
+    "Germany": {
+      "0": 0.235495,
+      "1": 0.49951,
+      "2": 0.12766,
+      "3": 0.081295,
+      "4": 0.035355,
+      "5": 0.020685
+    },
+    "Egypt": {
+      "0": 0.48527,
+      "1": 0.44895,
+      "2": 0.04667,
+      "3": 0.014575,
+      "4": 0.003875,
+      "5": 0.00066
+    },
+    "DR Congo": {
+      "0": 0.86046,
+      "1": 0.091585,
+      "2": 0.0365,
+      "3": 0.009935,
+      "4": 0.00134,
+      "5": 0.00018
+    },
+    "Ecuador": {
+      "0": 0.428625,
+      "1": 0.387445,
+      "2": 0.110255,
+      "3": 0.05569,
+      "4": 0.01362,
+      "5": 0.004365
+    },
+    "Bosnia and Herzegovina": {
+      "0": 0.57117,
+      "1": 0.29623,
+      "2": 0.11272,
+      "3": 0.016475,
+      "4": 0.00279,
+      "5": 0.000615
+    },
+    "Senegal": {
+      "0": 0.611355,
+      "1": 0.158585,
+      "2": 0.177355,
+      "3": 0.038385,
+      "4": 0.010835,
+      "5": 0.003485
+    },
+    "Cape Verde": {
+      "0": 0.94441,
+      "1": 0.035645,
+      "2": 0.01619,
+      "3": 0.003155,
+      "4": 0.00053,
+      "5": 7e-05
+    },
+    "Paraguay": {
+      "0": 0.764505,
+      "1": 0.198025,
+      "2": 0.02759,
+      "3": 0.007985,
+      "4": 0.00161,
+      "5": 0.000285
+    },
+    "South Africa": {
+      "0": 0.551155,
+      "1": 0.36565,
+      "2": 0.070635,
+      "3": 0.010495,
+      "4": 0.001745,
+      "5": 0.00032
+    },
+    "Japan": {
+      "0": 0.681175,
+      "1": 0.13436,
+      "2": 0.111785,
+      "3": 0.053425,
+      "4": 0.013965,
+      "5": 0.00529
+    }
+  }
+}

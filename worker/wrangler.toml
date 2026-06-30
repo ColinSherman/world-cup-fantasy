@@ -1,0 +1,20 @@
+name = "wcf-results"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+account_id = "a92ff6c4b72094e5030585f2363b940a"
+
+# KV namespace for the cached results table. The id is filled in after we run:
+#   npx wrangler kv namespace create WCF
+[[kv_namespaces]]
+binding = "WCF"
+id = "c7c77b148d794555b01380a767db9a83"
+
+# Light cadence: every 3 hours (~8 API calls/day). Tighten/loosen any time.
+[triggers]
+crons = ["*/30 * * * *"]
+
+# Non-secret config. Secrets (API_FOOTBALL_KEY, REFRESH_SECRET) come from
+# .dev.vars locally and `wrangler secret put` in production.
+[vars]
+LEAGUE = "1"
+SEASON = "2026"

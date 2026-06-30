@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Elimination Card Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{ --red:#D50000; --bg:#0B0E13; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; font-family:'Archivo',Arial,sans-serif; background:#15171c; color:#e9edf3; }
+  .wrap{ display:flex; gap:28px; padding:28px; flex-wrap:wrap; align-items:flex-start; }
+  .panel{ width:360px; background:#1c1f26; border:1px solid #2a2e38; border-radius:14px; padding:20px; }
+  .panel h1{ font-size:18px; margin:0 0 4px; font-weight:700; }
+  .panel p.sub{ font-size:13px; color:#9aa3b2; margin:0 0 18px; }
+  label{ display:block; font-size:12px; text-transform:uppercase; letter-spacing:1px; color:#9aa3b2; margin:14px 0 6px; }
+  input[type=text], select{ width:100%; padding:9px 11px; background:#0f1217; border:1px solid #2a2e38; border-radius:8px; color:#fff; font-size:14px; font-family:inherit; }
+  input[type=file]{ width:100%; font-size:12px; color:#9aa3b2; }
+  input[type=range]{ width:100%; accent-color:var(--red); }
+  .row{ display:flex; gap:10px; }
+  .row > div{ flex:1; }
+  .hint{ font-size:11px; color:#6b7280; margin-top:5px; }
+  button{ width:100%; margin-top:20px; padding:13px; background:var(--red); color:#fff; border:0; border-radius:9px; font-size:15px; font-weight:700; font-family:inherit; cursor:pointer; letter-spacing:.5px; }
+  button:hover{ background:#ef1414; }
+  button.sec{ background:#2a2e38; }
+  button.sec:hover{ background:#363b47; }
+
+  .stage{ flex:1; min-width:460px; }
+  .viewport{ width:1080px; transform-origin:top left; }
+  .vpbox{ overflow:hidden; border-radius:14px; }
+
+  #card{ position:relative; width:1080px; height:1350px; background:var(--bg); overflow:hidden; color:#fff; }
+  #photo{ position:absolute; inset:0; background-position:center 20%; background-size:cover; background-repeat:no-repeat; }
+  #photoPlaceholder{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; flex-direction:column; color:#3a414e; gap:14px; }
+  #photoPlaceholder svg{ width:170px; height:170px; }
+  .shade{ position:absolute; inset:0; background:linear-gradient(to bottom, rgba(11,14,19,.15) 0%, rgba(11,14,19,0) 28%, rgba(11,14,19,.55) 58%, rgba(11,14,19,.95) 82%, var(--bg) 100%); }
+  .topshade{ position:absolute; left:0; right:0; top:0; height:240px; background:linear-gradient(to bottom, rgba(11,14,19,.65), rgba(11,14,19,0)); }
+  .sidebar{ position:absolute; left:0; top:0; bottom:0; width:18px; background:var(--red); }
+  .rot{ position:absolute; left:30px; bottom:800px; transform:rotate(-90deg); transform-origin:left bottom; font-weight:800; font-size:22px; letter-spacing:6px; color:#fff; white-space:nowrap; }
+  .content{ position:absolute; left:64px; right:56px; bottom:54px; }
+  .who{ font-weight:800; font-size:46px; letter-spacing:3px; color:#fff; text-transform:uppercase; margin-bottom:2px; text-shadow:0 2px 14px rgba(0,0,0,.6); }
+  .elim{ font-family:'Anton',sans-serif; font-weight:400; font-size:188px; line-height:.86; letter-spacing:1px; color:#fff; text-transform:uppercase; margin:2px 0 18px; text-shadow:0 3px 20px rgba(0,0,0,.55); }
+  .tagbar{ display:inline-block; background:#fff; color:#0B0E13; font-weight:700; font-size:30px; letter-spacing:6px; padding:11px 22px 10px; text-transform:uppercase; }
+  .reason{ margin-top:18px; font-size:26px; font-weight:600; color:#ffd0d0; letter-spacing:.5px; }
+  .teams{ display:flex; flex-wrap:wrap; gap:11px; margin-top:26px; }
+  .chip{ padding:10px 17px; border-radius:7px; font-size:24px; font-weight:600; letter-spacing:.3px; background:rgba(255,255,255,.12); color:#fff; border:1px solid rgba(255,255,255,.22); cursor:pointer; }
+  .chip.dead{ background:transparent; color:rgba(255,255,255,.4); border-color:rgba(255,255,255,.14); text-decoration:line-through; }
+  .chip.killer{ background:var(--red); color:#fff; border-color:var(--red); font-weight:800; }
+  .chip.killer::after{ content:" ✕"; }
+  .legend{ font-size:12px; color:#6b7280; margin-top:14px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="panel">
+    <h1>Elimination card</h1>
+    <p class="sub">World Cup fantasy — ESPN style. Click a team chip in the preview to mark who did them in.</p>
+
+    <label>Player photo</label>
+    <input type="file" id="file" accept="image/*"/>
+    <div class="hint">Portrait shots work best. Use the sliders to frame the face.</div>
+
+    <div class="row">
+      <div><label>Vertical framing</label><input type="range" id="posY" min="0" max="100" value="20"/></div>
+      <div><label>Zoom</label><input type="range" id="zoom" min="100" max="260" value="100"/></div>
+    </div>
+
+    <label>Player (auto-fills teams)</label>
+    <select id="player"></select>
+
+    <label>Name shown on card</label>
+    <input type="text" id="name" placeholder="JAKE D"/>
+
+    <label>Big word</label>
+    <input type="text" id="bigword" value="ELIMINATED"/>
+
+    <label>Bottom bar</label>
+    <input type="text" id="tagline" value="FROM TITLE CONTENTION"/>
+
+    <label>Subtitle / reason (optional)</label>
+    <input type="text" id="reason" placeholder="Dominated by Susan S"/>
+    <div class="hint">e.g. “Paraguay’s loss sealed it” or “Dominated by Susan S”.</div>
+
+    <button id="download">Download PNG</button>
+    <button id="clearKiller" class="sec">Clear team highlight</button>
+    <div class="legend">Dead group-stage teams show struck through automatically. The red ✕ chip is the team you click.</div>
+  </div>
+
+  <div class="stage">
+    <div class="vpbox"><div class="viewport" id="viewport">
+      <div id="card">
+        <div id="photo"></div>
+        <div id="photoPlaceholder">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6"/></svg>
+          <div style="font-size:22px;font-weight:600">Upload a player photo</div>
+        </div>
+        <div class="topshade"></div>
+        <div class="shade"></div>
+        <div class="sidebar"></div>
+        <div class="rot">WORLD CUP FANTASY · 2026</div>
+        <div class="content">
+          <div class="who" id="cWho">JAKE D</div>
+          <div class="elim" id="cBig">ELIMINATED</div>
+          <span class="tagbar" id="cTag">FROM TITLE CONTENTION</span>
+          <div class="reason" id="cReason" style="display:none"></div>
+          <div class="teams" id="cTeams"></div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+const ALIVE = new Set(["Mexico","Switzerland","Brazil","United States","Germany","Netherlands","Belgium","Spain","France","Argentina","Colombia","England","South Africa","Canada","Morocco","Australia","Ivory Coast","Japan","Egypt","Cape Verde","Norway","Austria","Portugal","Croatia","Ecuador","Algeria","Bosnia and Herzegovina","Paraguay","Senegal","Sweden","Ghana","DR Congo"]);
+
+const PLAYERS = {
+ "Nicole L":["Argentina","Netherlands","Switzerland","Norway","South Africa","Ghana"],
+ "Emily B":["Argentina","Mexico","Japan","Canada","South Africa","New Zealand"],
+ "Logan S":["Argentina","United States","Japan","Algeria","South Africa","Ghana"],
+ "Wob W":["France","Germany","Ecuador","Ivory Coast","Scotland","Bosnia and Herzegovina"],
+ "Fred S":["Spain","Germany","Japan","Norway","Scotland","Ghana"],
+ "Noah P":["Argentina","Netherlands","Japan","Egypt","Qatar","Bosnia and Herzegovina"],
+ "Colin S":["Spain","Germany","Ecuador","Norway","Scotland","Bosnia and Herzegovina"],
+ "Colton S":["Argentina","Netherlands","Switzerland","Paraguay","Uzbekistan","Saudi Arabia"],
+ "Joel P":["France","Germany","Japan","Sweden","Czechia","Bosnia and Herzegovina"],
+ "Justin L":["Argentina","Mexico","South Korea","Paraguay","DR Congo","Haiti"],
+ "Paul H":["Argentina","Germany","Switzerland","Canada","Qatar","Saudi Arabia"],
+ "Susan S":["England","Netherlands","Austria","Ivory Coast","South Africa","New Zealand"],
+ "Tony M":["Brazil","Germany","Japan","Norway","Czechia","Bosnia and Herzegovina"],
+ "Erin C":["Brazil","Germany","Ecuador","Norway","Czechia","Bosnia and Herzegovina"],
+ "Laurel S":["France","Netherlands","South Korea","Algeria","Scotland","Curaçao"],
+ "LQ P":["Spain","Netherlands","Japan","Norway","Czechia","New Zealand"],
+ "Stephanie D":["France","Germany","Australia","Sweden","Scotland","New Zealand"],
+ "Badr H":["Spain","Croatia","Japan","Algeria","Tunisia","Ghana"],
+ "Desirae J":["Portugal","Mexico","Switzerland","Sweden","Czechia","Haiti"],
+ "Jake D":["England","Netherlands","South Korea","Ivory Coast","Scotland","Haiti"],
+ "James M":["Brazil","Germany","South Korea","Paraguay","South Africa","Saudi Arabia"],
+ "KC F":["Spain","Germany","Japan","Algeria","Scotland","Jordan"],
+ "Kam M":["Brazil","Colombia","Ecuador","Panama","South Africa","New Zealand"],
+ "Megan T":["Spain","Germany","Japan","Paraguay","Qatar","Jordan"],
+ "Taylor S":["Portugal","Germany","Australia","Sweden","Tunisia","Ghana"],
+};
+
+let killer = null;
+const $ = id => document.getElementById(id);
+
+const sel = $('player');
+Object.keys(PLAYERS).forEach(n=>{ const o=document.createElement('option'); o.value=n; o.textContent=n; sel.appendChild(o); });
+sel.value = "Jake D";
+
+function renderTeams(){
+  const teams = PLAYERS[sel.value] || [];
+  const box = $('cTeams'); box.innerHTML='';
+  teams.forEach(t=>{
+    const c=document.createElement('div');
+    c.className='chip'+(ALIVE.has(t)?'':' dead')+(t===killer?' killer':'');
+    c.textContent=t;
+    c.onclick=()=>{ killer = (killer===t? null : t); renderTeams(); };
+    box.appendChild(c);
+  });
+}
+
+function syncFromPlayer(){
+  $('name').value = sel.value.toUpperCase();
+  killer = null;
+  applyText();
+  renderTeams();
+}
+
+function applyText(){
+  $('cWho').textContent = $('name').value || sel.value.toUpperCase();
+  $('cBig').textContent = ($('bigword').value || 'ELIMINATED');
+  $('cTag').textContent = ($('tagline').value || '');
+  const r = $('reason').value.trim();
+  $('cReason').style.display = r? 'block':'none';
+  $('cReason').textContent = r;
+}
+
+sel.onchange = syncFromPlayer;
+['name','bigword','tagline','reason'].forEach(id=> $(id).oninput = applyText);
+$('clearKiller').onclick = ()=>{ killer=null; renderTeams(); };
+
+$('file').onchange = e=>{
+  const f=e.target.files[0]; if(!f) return;
+  const url=URL.createObjectURL(f);
+  $('photo').style.backgroundImage=`url(${url})`;
+  $('photoPlaceholder').style.display='none';
+};
+$('posY').oninput = e=>{ const p=$('photo'); const z=$('zoom').value;
+  p.style.backgroundPosition=`center ${e.target.value}%`; };
+$('zoom').oninput = e=>{ $('photo').style.backgroundSize=`${e.target.value}%`; };
+
+function fit(){
+  const stage=document.querySelector('.stage');
+  const w=Math.min(stage.clientWidth, 560);
+  const s=w/1080;
+  const vp=$('viewport'); vp.style.transform=`scale(${s})`;
+  document.querySelector('.vpbox').style.height=(1350*s)+'px';
+}
+window.addEventListener('resize', fit);
+
+$('download').onclick = async ()=>{
+  await document.fonts.ready;
+  const canvas = await html2canvas($('card'), {scale:2, backgroundColor:'#0B0E13', useCORS:true, logging:false, width:1080, height:1350});
+  const a=document.createElement('a');
+  a.download=(($('name').value||'player').replace(/\s+/g,'_'))+'_eliminated.png';
+  a.href=canvas.toDataURL('image/png');
+  a.click();
+};
+
+syncFromPlayer();
+fit();
+</script>
+</body>
+</html>
