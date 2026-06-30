@@ -1,3 +1,4 @@
+import 'flag-icons/css/flag-icons.min.css'
 import './app.css'
 import { mount } from 'svelte'
 import CardGenerator from './lib/CardGenerator.svelte'
