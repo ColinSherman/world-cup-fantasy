@@ -60,7 +60,7 @@
       if (d.fixtures) liveFixtures = d.fixtures;
     } catch { /* worker not up / offline — keep current */ }
   }
-  onMount(() => { loadResults(); const t = setInterval(loadResults, 60000); return () => clearInterval(t); });
+  onMount(() => { loadResults(); const t = setInterval(loadResults, 20000); return () => clearInterval(t); });
 
   let simToken = 0;
   $effect(() => {

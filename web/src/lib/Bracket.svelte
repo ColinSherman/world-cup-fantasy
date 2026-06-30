@@ -4,11 +4,23 @@
 
   let { resolved, pick, ownedTeams = new Set(), schedule = {}, actual = {}, liveFixtures = {} } = $props();
 
-  // Per-game status: 'final' (locked real result), 'pred' (sandbox pick), or '' (upcoming).
+  // Per-game status: 'final' (locked real result), 'live' (in progress),
+  // 'pred' (sandbox pick), or '' (upcoming).
   const status = (id) => {
     const w = resolved[id]?.winner;
-    if (!w) return '';
-    return actual[id] === w ? 'final' : 'pred';
+    if (w) return actual[id] === w ? 'final' : 'pred';
+    if (liveFixtures[id]?.state === 'in') return 'live';
+    return '';
+  };
+
+  // Score (from ESPN) oriented to the displayed [a, b] order. Returns { a, b } strings or null.
+  const sideScores = (id, a, b) => {
+    const fx = liveFixtures[id];
+    if (!fx || !fx.score || !fx.score.includes('-')) return null;
+    const [h, w] = fx.score.split('-');
+    if (fx.home === a) return { a: h, b: w };
+    if (fx.away === a) return { a: w, b: h };
+    return { a: h, b: w };
   };
 
   const L = bracketLayout({ vgap: 38 });
@@ -64,29 +76,33 @@
       {@const rg = resolved[g.id]}
       {@const p = L.pos[g.id]}
       {@const st = status(g.id)}
-      {@const score = liveFixtures[g.id]?.score}
+      {@const sc = (st === 'final' || st === 'live') ? sideScores(g.id, rg.a, rg.b) : null}
+      {@const fx = liveFixtures[g.id]}
       <div class="game" style="left:{p.x}px; top:{p.y + yOff}px; width:{L.colW}px;">
-       <div class="box" class:final={st === 'final'} class:pred={st === 'pred'}>
-        {#each [rg.a, rg.b] as team}
+       <div class="box" class:final={st === 'final'} class:pred={st === 'pred'} class:live={st === 'live'}>
+        {#each [{ team: rg.a, s: sc?.a }, { team: rg.b, s: sc?.b }] as slot}
           <button
             class="side"
-            class:winner={rg.winner && rg.winner === team}
-            class:predwin={st === 'pred' && rg.winner === team}
-            class:dim={rg.winner && rg.winner !== team}
-            class:tbd={!team}
-            class:owned={team && ownedTeams.has(team)}
-            disabled={!team}
-            onclick={() => team && pick(g.id, team)}
+            class:winner={rg.winner && rg.winner === slot.team}
+            class:predwin={st === 'pred' && rg.winner === slot.team}
+            class:dim={rg.winner && rg.winner !== slot.team}
+            class:tbd={!slot.team}
+            class:owned={slot.team && ownedTeams.has(slot.team)}
+            disabled={!slot.team}
+            onclick={() => slot.team && pick(g.id, slot.team)}
           >
-            <span class="fl">{#if team}<span class={flagClass(team)}></span>{:else}·{/if}</span>
-            <span class="nm">{team ?? 'TBD'}</span>
-            {#if team && ownedTeams.has(team)}<span class="dot" title="your team"></span>{/if}
+            <span class="fl">{#if slot.team}<span class={flagClass(slot.team)}></span>{:else}·{/if}</span>
+            <span class="nm">{slot.team ?? 'TBD'}</span>
+            {#if slot.team && ownedTeams.has(slot.team)}<span class="dot" title="your team"></span>{/if}
+            {#if sc}<span class="sc">{slot.s}</span>{/if}
           </button>
         {/each}
        </div>
         <div class="when">
           {#if st === 'final'}
-            <span class="final-tag">● FINAL{score ? ` · ${score}` : ''}</span>
+            <span class="final-tag">● FINAL</span>
+          {:else if st === 'live'}
+            <span class="live-tag">🔴 LIVE{fx?.clock ? ` · ${fx.clock}` : ''}</span>
           {:else if st === 'pred'}
             <span class="pred-tag">✎ your pick</span>
           {:else if schedule[g.id]}
@@ -124,8 +140,9 @@
     {#each mobileGames as g}
       {@const rg = resolved[g.id]}
       {@const st = status(g.id)}
-      {@const score = liveFixtures[g.id]?.score}
-      <div class="card" class:final={st === 'final'} class:pred={st === 'pred'}>
+      {@const sc = (st === 'final' || st === 'live') ? sideScores(g.id, rg.a, rg.b) : null}
+      {@const fx = liveFixtures[g.id]}
+      <div class="card" class:final={st === 'final'} class:pred={st === 'pred'} class:live={st === 'live'}>
         <div class="card-teams">
           {#each [{ team: rg.a, side: 'a' }, { team: rg.b, side: 'b' }] as slot}
             <button
@@ -143,13 +160,17 @@
               {#if slot.team && ownedTeams.has(slot.team)}<span class="dot" title="your team"></span>{/if}
             </button>
             {#if slot.side === 'a'}
-              <span class="vs">{rg.winner ? (rg.winner === rg.a ? '▶' : '◀') : 'vs'}</span>
+              <span class="vs" class:vsscore={!!sc} class:vslive={st === 'live'}>
+                {#if sc}{sc.a}-{sc.b}{:else if rg.winner}{rg.winner === rg.a ? '▶' : '◀'}{:else}vs{/if}
+              </span>
             {/if}
           {/each}
         </div>
         <div class="card-meta">
           {#if st === 'final'}
-            <span class="final-tag">● FINAL{score ? ` · ${score}` : ''}</span>
+            <span class="final-tag">● FINAL</span>
+          {:else if st === 'live'}
+            <span class="live-tag">🔴 LIVE{fx?.clock ? ` · ${fx.clock}` : ''}</span>
           {:else if st === 'pred'}
             <span class="pred-tag">✎ your pick</span>
           {:else if schedule[g.id]}
@@ -181,6 +202,8 @@
   .box { background: var(--panel2); border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
   .box.final { border-color: rgba(54,194,117,0.55); }
   .box.pred { border-color: rgba(255,206,58,0.5); border-style: dashed; }
+  .box.live { border-color: rgba(225,20,10,0.7); box-shadow: 0 0 0 1px rgba(225,20,10,0.35); animation: livepulse 2s ease-in-out infinite; }
+  @keyframes livepulse { 0%,100% { box-shadow: 0 0 0 1px rgba(225,20,10,0.30); } 50% { box-shadow: 0 0 0 2px rgba(225,20,10,0.55); } }
   .side {
     width: 100%; display: flex; align-items: center; gap: 7px; padding: 6px 8px;
     background: transparent; border: 0; border-bottom: 1px solid var(--line); color: var(--text);
@@ -198,10 +221,12 @@
   .fl :global(.fi) { width: 19px; height: 13px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(0,0,0,0.25); }
   .nm { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); flex: none; }
+  .sc { flex: none; font-weight: 800; font-variant-numeric: tabular-nums; font-size: 13px; color: var(--text); min-width: 12px; text-align: right; }
   .when { position: absolute; top: 100%; left: 1px; margin-top: 3px; font-size: 10px; color: var(--muted); display: flex; flex-direction: column; line-height: 1.25; }
   .when .city { color: var(--muted); opacity: 0.8; }
   .final-tag { color: var(--green); font-weight: 700; letter-spacing: 0.04em; }
   .pred-tag { color: var(--gold); font-weight: 700; }
+  .live-tag { color: #ff6b61; font-weight: 800; letter-spacing: 0.03em; }
 
   /* ── mobile round tabs ── */
   .rtabs {
@@ -227,6 +252,7 @@
   }
   .card.final { border-color: rgba(54,194,117,0.55); }
   .card.pred { border-color: rgba(255,206,58,0.5); border-style: dashed; }
+  .card.live { border-color: rgba(225,20,10,0.7); box-shadow: 0 0 0 1px rgba(225,20,10,0.35); }
   .card-teams { display: flex; align-items: stretch; }
   .mside {
     flex: 1; display: flex; align-items: center; gap: 8px; padding: 11px 10px;
@@ -245,10 +271,12 @@
   .tbd-dot { color: var(--muted); font-size: 18px; }
   .mnm { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .vs {
-    flex: none; width: 36px; display: flex; align-items: center; justify-content: center;
+    flex: none; width: 44px; display: flex; align-items: center; justify-content: center;
     font-size: 11px; font-weight: 800; color: var(--muted); border-left: 1px solid var(--line);
     border-right: 1px solid var(--line); background: var(--panel);
   }
+  .vs.vsscore { font-size: 15px; color: var(--text); font-variant-numeric: tabular-nums; }
+  .vs.vslive { color: #ff6b61; }
   .card-meta {
     display: flex; justify-content: space-between; align-items: center;
     padding: 5px 10px; font-size: 11px; color: var(--muted);
