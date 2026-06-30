@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Lockfile intentionally untracked: the Windows-generated lock omits Linux-only
+# optional native bindings (rolldown/@emnapi), which makes Cloudflare's strict
+# `npm ci` fail. Without a lock, Cloudflare uses lenient `npm install` and
+# resolves the correct platform deps at build time.
+package-lock.json
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
