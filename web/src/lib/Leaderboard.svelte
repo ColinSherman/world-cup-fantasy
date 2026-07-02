@@ -28,6 +28,7 @@
       <span class="c-rank">{r.rank}</span>
       <span class="c-name">
         <span class="nametxt">{r.name}</span>
+        {#if r.name === 'Jake D'}<span class="poop" title="certified trash">💩💩💩</span>{/if}
         {#if out}<span class="pill outpill">OUT</span>{/if}
       </span>
       <span class="c-teams">
@@ -100,4 +101,6 @@
   .wdelta.up { color: var(--green); }
   .wdelta.down { color: #ff6b61; }
   .outpill { background: rgba(225,20,10,0.18); color: #ff8a82; font-size: 9px; padding: 1px 5px; flex-shrink: 0; }
+  .poop { flex-shrink: 0; font-size: 12px; letter-spacing: -2px; display: inline-block; transform-origin: bottom center; animation: wiggle 1.4s ease-in-out infinite; }
+  @keyframes wiggle { 0%,100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
 </style>
