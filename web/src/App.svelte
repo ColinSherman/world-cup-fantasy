@@ -60,7 +60,29 @@
       if (d.fixtures) liveFixtures = d.fixtures;
     } catch { /* worker not up / offline — keep current */ }
   }
-  onMount(() => { loadResults(); const t = setInterval(loadResults, 30000); return () => clearInterval(t); });
+
+  // Adaptive polling to stay well under the Worker request cap:
+  //  • fast (20s) only while a match is actually live,
+  //  • slow (2 min) otherwise — still notices a kickoff within ~2 min,
+  //  • fully paused while the tab is hidden (forgotten/background tabs = 0 requests),
+  //    with an immediate refresh the moment it becomes visible again.
+  const LIVE_MS = 20000;
+  const IDLE_MS = 120000;
+  let pollTimer;
+  const anyLive = () => Object.values(liveFixtures).some((f) => f?.state === 'in');
+  function scheduleNext() {
+    clearTimeout(pollTimer);
+    if (document.hidden) return; // paused; visibilitychange resumes it
+    pollTimer = setTimeout(tick, anyLive() ? LIVE_MS : IDLE_MS);
+  }
+  async function tick() { await loadResults(); scheduleNext(); }
+  function onVisibility() { if (!document.hidden) { loadResults(); scheduleNext(); } }
+  onMount(() => {
+    loadResults();
+    scheduleNext();
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => { clearTimeout(pollTimer); document.removeEventListener('visibilitychange', onVisibility); };
+  });
 
   let simToken = 0;
   $effect(() => {
