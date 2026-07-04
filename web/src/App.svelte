@@ -5,11 +5,13 @@
   import { resolveBracket, sanitizeResults, gamesWonByTeam } from './lib/bracket.js';
   import { standings } from './lib/scoring.js';
   import { eliminatedList, pathInfo } from './lib/elimination.js';
+  import { scoreTrajectory } from './lib/trajectory.js';
   import { runSim } from './lib/simClient.js';
   import { onMount } from 'svelte';
   import Bracket from './lib/Bracket.svelte';
   import Leaderboard from './lib/Leaderboard.svelte';
   import PathToVictory from './lib/PathToVictory.svelte';
+  import ScoreChart from './lib/ScoreChart.svelte';
 
   // live (actual) knockout results — empty until the bracket starts / worker feeds them
   let actual = $state({});
@@ -32,6 +34,7 @@
     identity ? new Set(players.find((p) => p.name === identity)?.teams.filter((t) => t.alive).map((t) => t.name)) : new Set()
   );
   const info = $derived(identity ? pathInfo(identity, players, effective, proj) : null);
+  const traj = $derived(scoreTrajectory(players, effective, schedule));
 
   function pick(id, team) {
     const next = { ...sandbox };
@@ -146,6 +149,14 @@
 
       <div class="panel">
         <div class="section-h">
+          <h2>Points over time</h2>
+          <span class="note muted">cumulative score by matchday{sandboxActive ? ' · incl. sandbox' : ''}</span>
+        </div>
+        <ScoreChart {traj} {identity} />
+      </div>
+
+      <div class="panel">
+        <div class="section-h">
           <h2>Sandbox bracket</h2>
           <span class="note muted">click a team to send them through</span>
           <div class="spacer"></div>
@@ -186,6 +197,15 @@
         </div>
         <Bracket {resolved} {pick} {ownedTeams} {schedule} {actual} {liveFixtures} />
       </div>
+    {:else if mobileTab === 'trends'}
+      <div class="panel">
+        <div class="section-h">
+          <h2>Points over time</h2>
+          <div class="spacer"></div>
+          <span class="note muted">by matchday</span>
+        </div>
+        <ScoreChart {traj} {identity} />
+      </div>
     {:else}
       <div class="panel">
         <div class="section-h">
@@ -206,6 +226,10 @@
       <span class="navicon">🏆</span>
       <span>Bracket</span>
       {#if sandboxActive}<span class="sandbox-dot"></span>{/if}
+    </button>
+    <button class="navbtn" class:active={mobileTab === 'trends'} onclick={() => mobileTab = 'trends'}>
+      <span class="navicon">📈</span>
+      <span>Trends</span>
     </button>
     <button class="navbtn" class:active={mobileTab === 'path'} onclick={() => mobileTab = 'path'}>
       <span class="navicon">⭐</span>
