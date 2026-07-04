@@ -12,6 +12,7 @@
   import Leaderboard from './lib/Leaderboard.svelte';
   import PathToVictory from './lib/PathToVictory.svelte';
   import ScoreChart from './lib/ScoreChart.svelte';
+  import Pickems from './lib/Pickems.svelte';
 
   // live (actual) knockout results — empty until the bracket starts / worker feeds them
   let actual = $state({});
@@ -21,7 +22,8 @@
   let proj = $state(baseline);          // projection under effective (actual + sandbox)
   let projActual = $state(baseline);    // projection under actual results only (the "real" baseline)
   let simBusy = $state(false);
-  let mobileTab = $state('table'); // 'table' | 'bracket' | 'path'
+  let mobileTab = $state('table'); // 'table' | 'bracket' | 'trends' | 'pickems' | 'path'
+  let chartOpen = $state(false);   // Points-over-time panel collapsed by default (desktop)
 
   const effective = $derived(sanitizeResults({ ...actual, ...sandbox }));
   const resolved = $derived(resolveBracket(effective));
@@ -54,7 +56,24 @@
 
   const RESULTS_URL = import.meta.env.VITE_RESULTS_URL ||
     (import.meta.env.DEV ? 'http://localhost:8787/results' : 'https://wcf-results.colinlsherman.workers.dev/results');
+  const PICKS_URL = RESULTS_URL.replace('/results', '/picks');
   let liveFixtures = $state({});
+  let picks = $state({});
+  async function loadPicks() {
+    try { const d = await (await fetch(PICKS_URL)).json(); if (d.picks) picks = d.picks; } catch { /* offline */ }
+  }
+  async function submitPick(gameId, team) {
+    if (!identity) return;
+    picks = { ...picks, [identity]: { ...(picks[identity] || {}), [gameId]: team } }; // optimistic
+    try {
+      const res = await fetch(`${PICKS_URL}?person=${encodeURIComponent(identity)}`, {
+        method: 'POST', headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ gameId, team }),
+      });
+      const d = await res.json();
+      if (d.picks) picks = { ...picks, [identity]: d.picks };
+    } catch { /* keep optimistic */ }
+  }
   async function loadResults() {
     if (!RESULTS_URL) return;
     try {
@@ -79,9 +98,10 @@
     pollTimer = setTimeout(tick, anyLive() ? LIVE_MS : IDLE_MS);
   }
   async function tick() { await loadResults(); scheduleNext(); }
-  function onVisibility() { if (!document.hidden) { loadResults(); scheduleNext(); } }
+  function onVisibility() { if (!document.hidden) { loadResults(); loadPicks(); scheduleNext(); } }
   onMount(() => {
     loadResults();
+    loadPicks();
     scheduleNext();
     document.addEventListener('visibilitychange', onVisibility);
     return () => { clearTimeout(pollTimer); document.removeEventListener('visibilitychange', onVisibility); };
@@ -148,11 +168,13 @@
       </div>
 
       <div class="panel">
-        <div class="section-h">
+        <button class="section-h toggle-h" class:closed={!chartOpen} onclick={() => (chartOpen = !chartOpen)}>
           <h2>Points over time</h2>
           <span class="note muted">cumulative score by matchday{sandboxActive ? ' · incl. sandbox' : ''}</span>
-        </div>
-        <ScoreChart {traj} {identity} />
+          <div class="spacer"></div>
+          <span class="chev">{chartOpen ? 'Hide ▲' : 'Show ▼'}</span>
+        </button>
+        {#if chartOpen}<ScoreChart {traj} {identity} />{/if}
       </div>
 
       <div class="panel">
@@ -163,6 +185,14 @@
           <span class="note muted">kickoffs in local venue time</span>
         </div>
         <Bracket {resolved} {pick} {ownedTeams} {schedule} {actual} {liveFixtures} />
+      </div>
+
+      <div class="panel">
+        <div class="section-h">
+          <h2>Pick’ems</h2>
+          <span class="note muted">predict knockout winners · +1 each · locks at kickoff</span>
+        </div>
+        <Pickems {players} {liveFixtures} results={actual} {picks} {identity} onPick={submitPick} />
       </div>
     </div>
 
@@ -206,6 +236,15 @@
         </div>
         <ScoreChart {traj} {identity} />
       </div>
+    {:else if mobileTab === 'pickems'}
+      <div class="panel">
+        <div class="section-h">
+          <h2>Pick’ems</h2>
+          <div class="spacer"></div>
+          <span class="note muted">+1 each</span>
+        </div>
+        <Pickems {players} {liveFixtures} results={actual} {picks} {identity} onPick={submitPick} />
+      </div>
     {:else}
       <div class="panel">
         <div class="section-h">
@@ -231,9 +270,13 @@
       <span class="navicon">📈</span>
       <span>Trends</span>
     </button>
+    <button class="navbtn" class:active={mobileTab === 'pickems'} onclick={() => mobileTab = 'pickems'}>
+      <span class="navicon">🎯</span>
+      <span>Picks</span>
+    </button>
     <button class="navbtn" class:active={mobileTab === 'path'} onclick={() => mobileTab = 'path'}>
       <span class="navicon">⭐</span>
-      <span>My Path</span>
+      <span>Path</span>
     </button>
   </nav>
 </div>
@@ -242,6 +285,11 @@
   .desktop-grid { display: grid; }
   .mobile-tabs  { display: none; }
   .bottomnav    { display: none; }
+
+  .toggle-h { width: 100%; background: transparent; cursor: pointer; font-family: inherit; text-align: left; }
+  .toggle-h.closed { border-bottom: 0; }
+  .toggle-h .chev { font-size: 12px; font-weight: 700; color: var(--muted); }
+  .toggle-h:hover .chev { color: var(--text); }
 
   @media (max-width: 700px) {
     .desktop-grid { display: none; }

@@ -1,7 +1,7 @@
-// Cumulative points per player across the tournament timeline.
-// Baseline = group-stage total; each knockout win a player's team gets adds 3,
-// effective from that game's scheduled date. Returns checkpoints (x-axis) and
-// one cumulative series per player.
+// Cumulative points per player across the tournament timeline: the three group
+// matchdays (from group_timeline.json) then each knockout date (a team win = +3).
+// Returns checkpoints (x-axis) and one cumulative series per player.
+import groupTL from '../data/group_timeline.json';
 
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const MIDX = Object.fromEntries(MON.map((m, i) => [m, i]));
@@ -22,14 +22,22 @@ export function scoreTrajectory(players, effective, schedule) {
     wins.push({ team: winner, t: +parseDate(sc.date) });
   }
 
-  // Checkpoints: "Groups" baseline, then each distinct result date in order.
+  // Checkpoints: the 3 group matchdays, then each distinct knockout date.
   const dates = [...new Set(wins.map((w) => w.t))].sort((a, b) => a - b);
-  const checkpoints = [{ label: 'Groups', t: -Infinity }, ...dates.map((t) => ({ label: fmt(new Date(t)), t }))];
+  const groupLabels = groupTL.labels;
+  const checkpoints = [
+    ...groupLabels.map((label) => ({ label, group: true })),
+    ...dates.map((t) => ({ label: fmt(new Date(t)), t })),
+  ];
 
   const series = players.map((p) => {
+    // group matchday cumulative (ends exactly at p.total)
+    const gpts = groupTL.players[p.name] || [p.total, p.total, p.total];
+    // knockout cumulative: total + 3 per team win up to each date
     const owned = new Set(p.teams.filter((t) => t.alive).map((t) => t.name));
     const relevant = wins.filter((w) => owned.has(w.team));
-    const pts = checkpoints.map((cp) => p.total + 3 * relevant.filter((w) => w.t <= cp.t).length);
+    const kpts = dates.map((t) => p.total + 3 * relevant.filter((w) => w.t <= t).length);
+    const pts = [...gpts, ...kpts];
     return { name: p.name, pts, final: pts[pts.length - 1] };
   });
 

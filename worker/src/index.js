@@ -180,7 +180,38 @@ export default {
       catch (e) { return json({ error: String(e) }, 502); }
     }
 
-    return json({ ok: true, endpoints: ['/results', 'POST /refresh?key=…[&full=1]'] });
+    // ── Pick'ems (honor system, no auth) ──────────────────────────────────
+    // Picks stored per person in KV key `pick:<name>` → { gameId: team }.
+    if (url.pathname === '/picks') {
+      if (req.method === 'GET') {
+        const list = await env.WCF.list({ prefix: 'pick:' });
+        const entries = await Promise.all(
+          list.keys.map(async (k) => [k.name.slice(5), safeParse(await env.WCF.get(k.name)) || {}])
+        );
+        return json({ picks: Object.fromEntries(entries) });
+      }
+      if (req.method === 'POST') {
+        let body = {};
+        try { body = await req.json(); } catch {}
+        const person = (url.searchParams.get('person') || body.person || '').trim();
+        const gameId = body.gameId, team = body.team;
+        if (!person || !gameId || !team) return json({ error: 'person, gameId, team required' }, 400);
+
+        const state = safeParse(await env.WCF.get('state')) || { fixtures: {} };
+        const fx = state.fixtures?.[gameId];
+        if (!fx) return json({ error: 'that matchup is not set yet' }, 400);
+        if (fx.state !== 'pre') return json({ error: 'picks are locked for that game' }, 409);
+        if (team !== fx.home && team !== fx.away) return json({ error: 'team is not in that game' }, 400);
+
+        const key = 'pick:' + person;
+        const cur = safeParse(await env.WCF.get(key)) || {};
+        cur[gameId] = team;
+        await env.WCF.put(key, JSON.stringify(cur));
+        return json({ ok: true, person, picks: cur });
+      }
+    }
+
+    return json({ ok: true, endpoints: ['/results', 'GET/POST /picks', 'POST /refresh?key=…[&full=1]'] });
   },
 
   async scheduled(event, env, ctx) {
