@@ -83,7 +83,7 @@ function fullDates() {
   return dates;
 }
 
-function resolveResults(allFixtures) {
+function resolveResults(allFixtures, priorResults = {}) {
   const rank = (f) => (f.finished ? 2 : f.state === 'in' ? 1 : 0);
   const byPair = {};
   for (const f of allFixtures) {
@@ -91,7 +91,10 @@ function resolveResults(allFixtures) {
     const key = [f.home, f.away].sort().join('|');
     if (!byPair[key] || rank(f) >= rank(byPair[key])) byPair[key] = f;
   }
-  const results = {}, fixturesOut = {};
+  // Seed with winners we already know — permanent once decided — so a later round
+  // (e.g. R16) can resolve its participants even when the round that fed it (R32)
+  // is older than the fetch window.
+  const results = { ...priorResults }, fixturesOut = {};
   const winnerOf = (id) => results[id] || null;
   const partsOf = (g) => (g.round === 'R32' ? g.teams : g.feeders.map(winnerOf));
   for (const g of GAMES) {
@@ -126,7 +129,7 @@ async function refresh(env, full = false) {
   let existing = { results: {}, fixtures: {} };
   try { existing = JSON.parse(await env.WCF.get('state') || '{}') || existing; } catch {}
 
-  const { results, fixtures } = resolveResults(all);
+  const { results, fixtures } = resolveResults(all, existing.results || {});
   const merged = {
     results: { ...existing.results, ...results },
     fixtures: { ...existing.fixtures, ...fixtures },
