@@ -12,6 +12,10 @@
   import Leaderboard from './lib/Leaderboard.svelte';
   import PathToVictory from './lib/PathToVictory.svelte';
   import ScoreChart from './lib/ScoreChart.svelte';
+  import WinnerBanner from './lib/WinnerBanner.svelte';
+
+  // 🏆 The pool has been decided — congrats Nicole!
+  const CHAMPION = 'Nicole L';
 
   // live (actual) knockout results — empty until the bracket starts / worker feeds them
   let actual = $state({});
@@ -35,6 +39,7 @@
   );
   const info = $derived(identity ? pathInfo(identity, players, effective, proj) : null);
   const traj = $derived(scoreTrajectory(players, effective, schedule));
+  const championPts = $derived(rows.find((r) => r.name === CHAMPION)?.total ?? null);
 
   function pick(id, team) {
     const next = { ...sandbox };
@@ -133,6 +138,8 @@
       {#each players as p}<option value={p.name}>{p.name}</option>{/each}
     </select>
   </div>
+
+  <WinnerBanner name={CHAMPION} points={championPts} />
 
   <!-- Desktop layout: two-column grid -->
   <div class="grid desktop-grid">
