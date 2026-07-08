@@ -45,7 +45,8 @@ function makeRng(seed) {
 /**
  * Run n simulations from a fixed (partial) results map.
  * players: [{name, total, teams:[{name, alive}]}]
- * returns { n, poolWin:{name:p}, expFinal:{name:v}, champ:{team:p}, roundProb:{team:[p0..p5]} }
+ * returns { n, poolWin:{name:p}, pool2nd:{name:p}, pool3rd:{name:p}, expFinal:{name:v},
+ *           champ:{team:p}, roundProb:{team:[p0..p5]} }
  */
 export function simulateMany(players, results, { n = 100000, seed = 12345 } = {}) {
   const fixed = fixedWinnerArray(results);
@@ -61,6 +62,8 @@ export function simulateMany(players, results, { n = 100000, seed = 12345 } = {}
   for (let i = 0; i < N_GAMES; i++) if (fixed[i] >= 0) winners[i] = fixed[i];
 
   const poolWin = new Float64Array(P);
+  const pool2nd = new Float64Array(P);
+  const pool3rd = new Float64Array(P);
   const scoreSum = new Float64Array(P);
   const champ = new Int32Array(N_TEAMS);
   const roundCount = new Int32Array(N_TEAMS * 6);
@@ -85,25 +88,47 @@ export function simulateMany(players, results, { n = 100000, seed = 12345 } = {}
     champ[winners[FINAL_IDX]]++;
     for (let t = 0; t < N_TEAMS; t++) roundCount[t * 6 + gw[t]]++;
 
-    // player totals
-    let best = -1;
+    // player totals + top-3 distinct scores (b1 > b2 > b3)
+    let b1 = -Infinity, b2 = -Infinity, b3 = -Infinity;
     for (let k = 0; k < P; k++) {
       let tot = pBase[k];
       const arr = pTeams[k];
       for (let j = 0; j < arr.length; j++) tot += 3 * gw[arr[j]];
       totals[k] = tot;
       scoreSum[k] += tot;
-      if (tot > best) best = tot;
+      if (tot > b1) { b3 = b2; b2 = b1; b1 = tot; }
+      else if (tot < b1 && tot > b2) { b3 = b2; b2 = tot; }
+      else if (tot < b2 && tot > b3) { b3 = tot; }
     }
-    let cnt = 0;
-    for (let k = 0; k < P; k++) if (totals[k] === best) cnt++;
-    const share = 1 / cnt;
-    for (let k = 0; k < P; k++) if (totals[k] === best) poolWin[k] += share;
+    let c1 = 0, c2 = 0, c3 = 0;
+    for (let k = 0; k < P; k++) {
+      if (totals[k] === b1) c1++;
+      else if (totals[k] === b2) c2++;
+      else if (totals[k] === b3) c3++;
+    }
+    // Ties share places: a group of m tied players occupies the next m places, and each
+    // member gets 1/m credit for every place in that span (generalizes the old win split).
+    const w1 = 1 / c1, w2 = c2 ? 1 / c2 : 0, w3 = c3 ? 1 / c3 : 0;
+    for (let k = 0; k < P; k++) {
+      const t = totals[k];
+      if (t === b1) {
+        poolWin[k] += w1;
+        if (c1 >= 2) pool2nd[k] += w1;
+        if (c1 >= 3) pool3rd[k] += w1;
+      } else if (t === b2) {
+        if (c1 === 1) pool2nd[k] += w2;
+        if (c1 <= 2 && c1 + c2 >= 3) pool3rd[k] += w2;
+      } else if (t === b3) {
+        if (c1 + c2 === 2) pool3rd[k] += w3;
+      }
+    }
   }
 
-  const res = { n, poolWin: {}, expFinal: {}, champ: {}, roundProb: {} };
+  const res = { n, poolWin: {}, pool2nd: {}, pool3rd: {}, expFinal: {}, champ: {}, roundProb: {} };
   players.forEach((p, k) => {
     res.poolWin[p.name] = poolWin[k] / n;
+    res.pool2nd[p.name] = pool2nd[k] / n;
+    res.pool3rd[p.name] = pool3rd[k] / n;
     res.expFinal[p.name] = scoreSum[k] / n;
   });
   for (let t = 0; t < N_TEAMS; t++) {
