@@ -1,16 +1,20 @@
 <script>
   import { onMount } from 'svelte';
 
-  let { name, points = null } = $props();
+  // names: the mathematically locked champion group (usually one, more on a tie)
+  // full: the entire podium is locked — go full-blast; until then keep it subtle
+  let { names, points = null, full = false } = $props();
+  const title = $derived(names.length > 1 ? `${names.join(' & ')} win it all!` : `${names[0]} wins it all!`);
+  const detail = $derived(
+    `2026 World Cup Fantasy Champion${names.length > 1 ? 's' : ''}${points != null ? ` · ${points} pts` : ''}`
+  );
 
   let canvas;
   let raf;
-  let running = $state(false);
+  let stopCurrent = null;
 
   // Confetti colors pulled from the site palette (+ white for pop).
   const COLORS = ['#ffce3a', '#e1140a', '#36c275', '#3c8aff', '#ffffff', '#ff8a3c'];
-  const PIECES = 160;
-  const BURST_MS = 12000; // rain for a bit, then wind down
 
   function makePiece(w, h, fromTop) {
     return {
@@ -29,8 +33,11 @@
   }
 
   function celebrate() {
-    if (running) return;
+    stopCurrent?.();
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    // full podium locked = the real party; a lone clinch gets a gentle sprinkle
+    const PIECES = full ? 200 : 40;
+    const BURST_MS = full ? 12000 : 4000;
     const ctx = canvas.getContext('2d');
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     let w, h;
@@ -46,7 +53,12 @@
 
     let pieces = Array.from({ length: PIECES }, () => makePiece(w, h, true));
     const start = performance.now();
-    running = true;
+    stopCurrent = () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener('resize', resize);
+      ctx.clearRect(0, 0, w, h);
+      stopCurrent = null;
+    };
 
     function frame(now) {
       ctx.clearRect(0, 0, w, h);
@@ -74,18 +86,18 @@
       if (alive > 0) {
         raf = requestAnimationFrame(frame);
       } else {
-        ctx.clearRect(0, 0, w, h);
-        window.removeEventListener('resize', resize);
-        running = false;
+        stopCurrent?.();
       }
     }
     raf = requestAnimationFrame(frame);
   }
 
-  onMount(() => {
-    celebrate();
-    return () => cancelAnimationFrame(raf);
+  // fires on mount, and again (at full strength) the moment the podium locks
+  let prevFull = null;
+  $effect(() => {
+    if (full !== prevFull) { prevFull = full; celebrate(); }
   });
+  onMount(() => () => stopCurrent?.());
 </script>
 
 <canvas bind:this={canvas} class="confetti" aria-hidden="true"></canvas>
@@ -93,8 +105,8 @@
 <button class="winner" onclick={celebrate} title="More confetti!">
   <span class="trophy">🏆</span>
   <span class="text">
-    <span class="crowned">{name} wins it all!</span>
-    <span class="detail">2026 World Cup Fantasy Champion{points != null ? ` · ${points} pts` : ''}</span>
+    <span class="crowned">{title}</span>
+    <span class="detail">{detail}</span>
   </span>
   <span class="trophy flip">🎉</span>
 </button>

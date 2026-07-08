@@ -3,7 +3,7 @@
 
   let { rows, proj, projActual = null, realWon = {}, sandboxActive = false, eliminated, identity, onSelect } = $props();
 
-  const pct = (p) => (p == null ? '—' : p < 0.001 ? '<0.1%' : (p * 100).toFixed(1) + '%');
+  const pct = (p) => (p == null ? '—' : p === 0 ? '0%' : p < 0.001 ? '<0.1%' : (p * 100).toFixed(1) + '%');
   // win% change vs the real (actual-only) projection — only meaningful while sandboxing
   function delta(name) {
     if (!sandboxActive || !projActual) return 0;
@@ -18,6 +18,8 @@
     <span class="c-teams">Teams</span>
     <span class="c-pts">Pts</span>
     <span class="c-win">Win&nbsp;%</span>
+    <span class="c-p2">2nd&nbsp;%</span>
+    <span class="c-p3">3rd&nbsp;%</span>
   </div>
   {#each rows as r (r.name)}
     {@const out = eliminated?.has(r.name)}
@@ -48,6 +50,8 @@
           <span class="wdelta {d > 0 ? 'up' : 'down'}">{d > 0 ? '▲' : '▼'}{(Math.abs(d) * 100).toFixed(1)}</span>
         {/if}
       </span>
+      <span class="c-p2">{pct(proj?.pool2nd?.[r.name])}</span>
+      <span class="c-p3">{pct(proj?.pool3rd?.[r.name])}</span>
     </button>
   {/each}
 </div>
@@ -56,8 +60,8 @@
   .lb { padding: 4px 0 8px; overflow-x: hidden; }
   .head, .row {
     display: grid;
-    grid-template-columns: 26px minmax(0,1fr) minmax(0,1.6fr) 52px 58px;
-    grid-template-areas: "rank name teams pts win";
+    grid-template-columns: 26px minmax(0,1fr) minmax(0,1.6fr) 52px 58px 50px 50px;
+    grid-template-areas: "rank name teams pts win p2 p3";
     align-items: center; gap: 6px; padding: 6px 12px; width: 100%; text-align: left;
     box-sizing: border-box;
   }
@@ -72,11 +76,13 @@
   .c-teams { grid-area: teams; display: flex; flex-wrap: wrap; gap: 2px; min-width: 0; }
   .c-pts { grid-area: pts; }
   .c-win { grid-area: win; }
+  .c-p2 { grid-area: p2; }
+  .c-p3 { grid-area: p3; }
 
   @media (max-width: 700px) {
     .head, .row {
-      grid-template-columns: 22px minmax(0,1fr) 46px 50px;
-      grid-template-areas: "rank name pts win" ". teams teams teams";
+      grid-template-columns: 22px minmax(0,1fr) 42px 46px 42px 42px;
+      grid-template-areas: "rank name pts win p2 p3" ". teams teams teams teams teams";
       row-gap: 4px;
       padding: 6px 10px;
       gap: 5px;
@@ -97,6 +103,9 @@
   .c-pts small { color: var(--green); font-weight: 700; margin-left: 2px; font-size: 11px; }
   .c-pts small.predpts { color: var(--gold); }
   .c-win { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--gold); font-size: 13px; }
+  .c-p2, .c-p3 { text-align: right; font-weight: 600; font-variant-numeric: tabular-nums; font-size: 12px; }
+  .c-p2 { color: #b9c4d6; }  /* silver */
+  .c-p3 { color: #cd8f52; }  /* bronze */
   .wdelta { display: block; font-size: 10px; font-weight: 700; margin-top: 1px; }
   .wdelta.up { color: var(--green); }
   .wdelta.down { color: #ff6b61; }

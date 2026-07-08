@@ -2,23 +2,21 @@
   import players from './data/players.json';
   import baseline from './data/baseline.json';
   import schedule from './data/schedule.json';
+  import initialResults from './data/initialResults.json';
   import { resolveBracket, sanitizeResults, gamesWonByTeam } from './lib/bracket.js';
   import { standings } from './lib/scoring.js';
   import { eliminatedList, pathInfo } from './lib/elimination.js';
-  import { scoreTrajectory } from './lib/trajectory.js';
   import { runSim } from './lib/simClient.js';
+  import { podiumLocks } from './lib/sim.js';
   import { onMount } from 'svelte';
   import Bracket from './lib/Bracket.svelte';
   import Leaderboard from './lib/Leaderboard.svelte';
   import PathToVictory from './lib/PathToVictory.svelte';
-  import ScoreChart from './lib/ScoreChart.svelte';
   import WinnerBanner from './lib/WinnerBanner.svelte';
+  import Podium from './lib/Podium.svelte';
 
-  // 🏆 The pool has been decided — congrats Nicole!
-  const CHAMPION = 'Nicole L';
-
-  // live (actual) knockout results — empty until the bracket starts / worker feeds them
-  let actual = $state({});
+  // live (actual) knockout results — seeded with a snapshot, kept fresh by the worker
+  let actual = $state(initialResults);
   // per-user hypothetical picks layered on top
   let sandbox = $state({});
   let identity = $state(localStorage.getItem('wcf_me') || '');
@@ -38,8 +36,15 @@
     identity ? new Set(players.find((p) => p.name === identity)?.teams.filter((t) => t.alive).map((t) => t.name)) : new Set()
   );
   const info = $derived(identity ? pathInfo(identity, players, effective, proj) : null);
-  const traj = $derived(scoreTrajectory(players, effective, schedule));
-  const championPts = $derived(rows.find((r) => r.name === CHAMPION)?.total ?? null);
+  // Podium locks are PROVEN by exhausting every remaining bracket outcome, and computed
+  // from `actual` only — sandbox sims can't trigger (or hide) a clinch.
+  const podium = $derived(podiumLocks(players, actual));
+  const actualRows = $derived(standings(players, actual));
+  const actualPts = $derived(Object.fromEntries(actualRows.map((r) => [r.name, r.total])));
+  const champNames = $derived(podium?.ranks[0].names ?? null);
+  const championPts = $derived(champNames?.length === 1 ? actualPts[champNames[0]] : null);
+  const anyLocked = $derived(podium?.ranks.some((r) => r.names !== null) ?? false);
+  const allLocked = $derived(podium?.ranks.every((r) => r.names !== null) ?? false);
 
   function pick(id, team) {
     const next = { ...sandbox };
@@ -64,7 +69,8 @@
     if (!RESULTS_URL) return;
     try {
       const d = await (await fetch(RESULTS_URL)).json();
-      if (d.results) actual = d.results;
+      // only reassign on real change — keeps polling from re-running sims and podium checks
+      if (d.results && JSON.stringify(d.results) !== JSON.stringify(actual)) actual = d.results;
       if (d.fixtures) liveFixtures = d.fixtures;
     } catch { /* worker not up / offline — keep current */ }
   }
@@ -110,7 +116,8 @@
   let simTokenA = 0;
   $effect(() => {
     if (!sandboxActive) { projActual = baseline; return; }
-    const a = actual; // dependency
+    // snapshot: the raw $state proxy can't survive postMessage's structured clone
+    const a = $state.snapshot(actual);
     const token = ++simTokenA;
     runSim(players, a, { n: 100000, seed: 999 }).then((res) => {
       if (token === simTokenA) projActual = res;
@@ -139,7 +146,12 @@
     </select>
   </div>
 
-  <WinnerBanner name={CHAMPION} points={championPts} />
+  {#if champNames?.length}
+    <WinnerBanner names={champNames} points={championPts} full={allLocked} />
+  {/if}
+  {#if anyLocked}
+    <Podium {podium} rows={actualRows} />
+  {/if}
 
   <!-- Desktop layout: two-column grid -->
   <div class="grid desktop-grid">
@@ -147,19 +159,11 @@
       <div class="panel">
         <div class="section-h">
           <h2>Leaderboard</h2>
-          <span class="note muted">{sandboxActive ? 'projected under sandbox' : 'group stage final'}</span>
+          <span class="note muted">{sandboxActive ? 'projected under sandbox' : 'live results'}</span>
           <div class="spacer"></div>
           <span class="note muted">{simBusy ? 'simulating…' : `${(proj.n / 1000) | 0}k sims`}</span>
         </div>
         <Leaderboard {rows} {proj} {projActual} {realWon} {sandboxActive} eliminated={elim} {identity} onSelect={setIdentity} />
-      </div>
-
-      <div class="panel">
-        <div class="section-h">
-          <h2>Points over time</h2>
-          <span class="note muted">cumulative score by matchday{sandboxActive ? ' · incl. sandbox' : ''}</span>
-        </div>
-        <ScoreChart {traj} {identity} />
       </div>
 
       <div class="panel">
@@ -204,15 +208,6 @@
         </div>
         <Bracket {resolved} {pick} {ownedTeams} {schedule} {actual} {liveFixtures} />
       </div>
-    {:else if mobileTab === 'trends'}
-      <div class="panel">
-        <div class="section-h">
-          <h2>Points over time</h2>
-          <div class="spacer"></div>
-          <span class="note muted">by matchday</span>
-        </div>
-        <ScoreChart {traj} {identity} />
-      </div>
     {:else}
       <div class="panel">
         <div class="section-h">
@@ -233,10 +228,6 @@
       <span class="navicon">🏆</span>
       <span>Bracket</span>
       {#if sandboxActive}<span class="sandbox-dot"></span>{/if}
-    </button>
-    <button class="navbtn" class:active={mobileTab === 'trends'} onclick={() => mobileTab = 'trends'}>
-      <span class="navicon">📈</span>
-      <span>Trends</span>
     </button>
     <button class="navbtn" class:active={mobileTab === 'path'} onclick={() => mobileTab = 'path'}>
       <span class="navicon">⭐</span>

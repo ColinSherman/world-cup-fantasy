@@ -45,7 +45,8 @@ function makeRng(seed) {
 /**
  * Run n simulations from a fixed (partial) results map.
  * players: [{name, total, teams:[{name, alive}]}]
- * returns { n, poolWin:{name:p}, expFinal:{name:v}, champ:{team:p}, roundProb:{team:[p0..p5]} }
+ * returns { n, poolWin:{name:p}, pool2nd:{name:p}, pool3rd:{name:p}, expFinal:{name:v},
+ *           champ:{team:p}, roundProb:{team:[p0..p5]} }
  */
 export function simulateMany(players, results, { n = 100000, seed = 12345 } = {}) {
   const fixed = fixedWinnerArray(results);
@@ -61,6 +62,8 @@ export function simulateMany(players, results, { n = 100000, seed = 12345 } = {}
   for (let i = 0; i < N_GAMES; i++) if (fixed[i] >= 0) winners[i] = fixed[i];
 
   const poolWin = new Float64Array(P);
+  const pool2nd = new Float64Array(P);
+  const pool3rd = new Float64Array(P);
   const scoreSum = new Float64Array(P);
   const champ = new Int32Array(N_TEAMS);
   const roundCount = new Int32Array(N_TEAMS * 6);
@@ -85,25 +88,47 @@ export function simulateMany(players, results, { n = 100000, seed = 12345 } = {}
     champ[winners[FINAL_IDX]]++;
     for (let t = 0; t < N_TEAMS; t++) roundCount[t * 6 + gw[t]]++;
 
-    // player totals
-    let best = -1;
+    // player totals + top-3 distinct scores (b1 > b2 > b3)
+    let b1 = -Infinity, b2 = -Infinity, b3 = -Infinity;
     for (let k = 0; k < P; k++) {
       let tot = pBase[k];
       const arr = pTeams[k];
       for (let j = 0; j < arr.length; j++) tot += 3 * gw[arr[j]];
       totals[k] = tot;
       scoreSum[k] += tot;
-      if (tot > best) best = tot;
+      if (tot > b1) { b3 = b2; b2 = b1; b1 = tot; }
+      else if (tot < b1 && tot > b2) { b3 = b2; b2 = tot; }
+      else if (tot < b2 && tot > b3) { b3 = tot; }
     }
-    let cnt = 0;
-    for (let k = 0; k < P; k++) if (totals[k] === best) cnt++;
-    const share = 1 / cnt;
-    for (let k = 0; k < P; k++) if (totals[k] === best) poolWin[k] += share;
+    let c1 = 0, c2 = 0, c3 = 0;
+    for (let k = 0; k < P; k++) {
+      if (totals[k] === b1) c1++;
+      else if (totals[k] === b2) c2++;
+      else if (totals[k] === b3) c3++;
+    }
+    // Ties share places: a group of m tied players occupies the next m places, and each
+    // member gets 1/m credit for every place in that span (generalizes the old win split).
+    const w1 = 1 / c1, w2 = c2 ? 1 / c2 : 0, w3 = c3 ? 1 / c3 : 0;
+    for (let k = 0; k < P; k++) {
+      const t = totals[k];
+      if (t === b1) {
+        poolWin[k] += w1;
+        if (c1 >= 2) pool2nd[k] += w1;
+        if (c1 >= 3) pool3rd[k] += w1;
+      } else if (t === b2) {
+        if (c1 === 1) pool2nd[k] += w2;
+        if (c1 <= 2 && c1 + c2 >= 3) pool3rd[k] += w2;
+      } else if (t === b3) {
+        if (c1 + c2 === 2) pool3rd[k] += w3;
+      }
+    }
   }
 
-  const res = { n, poolWin: {}, expFinal: {}, champ: {}, roundProb: {} };
+  const res = { n, poolWin: {}, pool2nd: {}, pool3rd: {}, expFinal: {}, champ: {}, roundProb: {} };
   players.forEach((p, k) => {
     res.poolWin[p.name] = poolWin[k] / n;
+    res.pool2nd[p.name] = pool2nd[k] / n;
+    res.pool3rd[p.name] = pool3rd[k] / n;
     res.expFinal[p.name] = scoreSum[k] / n;
   });
   for (let t = 0; t < N_TEAMS; t++) {
@@ -113,4 +138,84 @@ export function simulateMany(players, results, { n = 100000, seed = 12345 } = {}
     res.roundProb[TEAMS[t]] = rp;
   }
   return res;
+}
+
+/**
+ * Deterministic podium check: exhaustively plays out every possible remaining bracket
+ * outcome and reports which final places 1–3 are already mathematically locked.
+ * Unlike the Monte Carlo, a lock here is a proof, not an estimate — and callers pass
+ * ACTUAL results only, so sandbox picks can never fake a clinch.
+ *
+ * Returns null while too many games remain to enumerate (early tournament).
+ * Otherwise: { decided, ranks: [{ rank, names }] } where names is the tie group locked
+ * at that rank, null if the place is still contested, or [] if the place is absorbed
+ * by a tie above it (e.g. two players locked 2nd leaves no 3rd).
+ */
+export function podiumLocks(players, results, { maxUndecided = 16 } = {}) {
+  const fixed = fixedWinnerArray(results);
+  let undecided = 0;
+  for (let i = 0; i < N_GAMES; i++) if (fixed[i] < 0) undecided++;
+  if (undecided > maxUndecided) return null;
+
+  const P = players.length;
+  const pTeams = players.map((p) => p.teams.filter((t) => t.alive).map((t) => TI[t.name]));
+  const pBase = players.map((p) => p.total);
+  const winners = new Int32Array(N_GAMES);
+  const gw = new Int32Array(N_TEAMS);
+  const totals = new Float64Array(P);
+  const order = [...Array(P).keys()];
+
+  // rankSets[r] = the set of player indices at rank r+1, once seen identical in every
+  // scenario; degrades to null the first time two scenarios disagree.
+  let rankSets = null;
+  const nScenarios = 1 << undecided;
+  for (let mask = 0; mask < nScenarios; mask++) {
+    gw.fill(0);
+    let bit = 0;
+    for (let i = 0; i < N_GAMES; i++) {
+      let w;
+      if (fixed[i] >= 0) {
+        w = fixed[i];
+      } else {
+        const c = COMPILED[i];
+        const a = c.a0 >= 0 ? c.a0 : winners[c.ag];
+        const b = c.b0 >= 0 ? c.b0 : winners[c.bg];
+        w = (mask >>> bit++) & 1 ? a : b;
+      }
+      winners[i] = w;
+      gw[w]++;
+    }
+    for (let k = 0; k < P; k++) {
+      let tot = pBase[k];
+      const arr = pTeams[k];
+      for (let j = 0; j < arr.length; j++) tot += 3 * gw[arr[j]];
+      totals[k] = tot;
+    }
+    order.sort((a, b) => totals[b] - totals[a]);
+    // competition ranking (1,2,2,4…): collect the tie group at each of places 1–3
+    const sets = [[], [], []];
+    let rank = 0, prev = null;
+    for (let pos = 0; pos < P; pos++) {
+      const k = order[pos];
+      if (totals[k] !== prev) { rank = pos + 1; prev = totals[k]; }
+      if (rank > 3) break;
+      sets[rank - 1].push(k);
+    }
+    // `order` is reused across scenarios, so ties can surface in varying index order —
+    // normalize each group so identical sets always compare equal
+    for (const s of sets) s.sort((a, b) => a - b);
+    if (rankSets === null) {
+      rankSets = sets;
+    } else {
+      for (let r = 0; r < 3; r++) {
+        const a = rankSets[r], b = sets[r];
+        if (a && (a.length !== b.length || a.some((v, i) => v !== b[i]))) rankSets[r] = null;
+      }
+      if (rankSets.every((s) => s === null)) return { decided: false, ranks: [1, 2, 3].map((rank) => ({ rank, names: null })) };
+    }
+  }
+  return {
+    decided: undecided === 0,
+    ranks: rankSets.map((s, r) => ({ rank: r + 1, names: s ? s.map((k) => players[k].name) : null })),
+  };
 }
