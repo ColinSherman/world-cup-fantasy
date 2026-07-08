@@ -35,8 +35,9 @@
             <div class="pts">{p.total} pts</div>
             <div class="flags">
               {#each p.teams as t}
-                <span class="chip {t.status}" title="{t.name}{t.wins ? ` · ${t.wins} won` : ''}">
-                  <span class={flagClass(t.name)}></span>{#if t.wins}<b>{t.wins}</b>{/if}
+                {@const tpts = t.gp + 3 * t.wins}
+                <span class="chip" title="{t.name} · {tpts} pts ({t.gp} group + {3 * t.wins} knockout)">
+                  <span class={flagClass(t.name)}></span><b>{tpts}</b>
                 </span>
               {/each}
             </div>
@@ -71,13 +72,11 @@
   .pts { font-size: 12px; font-weight: 700; color: var(--green); font-variant-numeric: tabular-nums; }
   .tag { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
 
-  .flags { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; margin-top: 2px; }
-  .chip { display: inline-flex; align-items: center; line-height: 1; padding: 2px 3px; border-radius: 4px; }
+  /* all flags full-color here — the podium celebrates the whole roster */
+  .flags { display: flex; flex-wrap: wrap; justify-content: center; gap: 3px; margin-top: 2px; }
+  .chip { display: inline-flex; align-items: center; gap: 2px; line-height: 1; padding: 2px 4px; border-radius: 4px; background: rgba(255,255,255,0.05); }
   .chip :global(.fi) { width: 18px; height: 12px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(0,0,0,0.25); }
-  .chip b { font-size: 9px; vertical-align: super; color: var(--green); margin-left: 1px; }
-  .chip.dead { opacity: 0.3; filter: grayscale(1); }
-  .chip.out { opacity: 0.45; filter: grayscale(0.6); }
-  .chip.alive { background: rgba(54,194,117,0.10); }
+  .chip b { font-size: 10px; font-variant-numeric: tabular-nums; color: var(--text); opacity: 0.85; }
 
   .block {
     display: flex; align-items: center; justify-content: center;
