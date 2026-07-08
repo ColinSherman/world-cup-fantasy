@@ -3,7 +3,7 @@
 
   let { rows, proj, projActual = null, realWon = {}, sandboxActive = false, eliminated, identity, onSelect } = $props();
 
-  const pct = (p) => (p == null ? '—' : p < 0.001 ? '<0.1%' : (p * 100).toFixed(1) + '%');
+  const pct = (p) => (p == null ? '—' : p === 0 ? '0%' : p < 0.001 ? '<0.1%' : (p * 100).toFixed(1) + '%');
   // win% change vs the real (actual-only) projection — only meaningful while sandboxing
   function delta(name) {
     if (!sandboxActive || !projActual) return 0;

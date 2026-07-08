@@ -1,7 +1,12 @@
 <script>
   import { onMount } from 'svelte';
 
-  let { name, points = null } = $props();
+  // names: the mathematically locked champion group (usually one, more on a tie)
+  let { names, points = null } = $props();
+  const title = $derived(names.length > 1 ? `${names.join(' & ')} win it all!` : `${names[0]} wins it all!`);
+  const detail = $derived(
+    `2026 World Cup Fantasy Champion${names.length > 1 ? 's' : ''}${points != null ? ` · ${points} pts` : ''}`
+  );
 
   let canvas;
   let raf;
@@ -93,8 +98,8 @@
 <button class="winner" onclick={celebrate} title="More confetti!">
   <span class="trophy">🏆</span>
   <span class="text">
-    <span class="crowned">{name} wins it all!</span>
-    <span class="detail">2026 World Cup Fantasy Champion{points != null ? ` · ${points} pts` : ''}</span>
+    <span class="crowned">{title}</span>
+    <span class="detail">{detail}</span>
   </span>
   <span class="trophy flip">🎉</span>
 </button>
