@@ -1,63 +1,106 @@
 <script>
+  import { flagClass } from './flags.js';
+
   // Final podium, revealed automatically as places become mathematically locked.
   // `podium` comes from podiumLocks() over ACTUAL results only — sandbox picks never
   // reach it, so playing with the bracket can't fake a clinch.
-  let { podium, pts = {} } = $props();
+  // `rows` are actual-results standings, used for each winner's teams + score.
+  let { podium, rows = [] } = $props();
 
+  const byName = $derived(Object.fromEntries(rows.map((r) => [r.name, r])));
   const MEDALS = ['🥇', '🥈', '🥉'];
-  // slots: skip places absorbed by a tie above (locked-empty), show TBD while contested
-  const slots = $derived(
-    podium.ranks
-      .filter((r) => r.names === null || r.names.length > 0)
-      .map((r) => ({
-        medal: MEDALS[r.rank - 1],
-        locked: r.names !== null,
-        label: r.names ? r.names.join(' & ') : 'TBD',
-        pts: r.names?.length === 1 ? pts[r.names[0]] : null,
-      }))
+  const HEIGHTS = [86, 58, 40];
+  // classic stand order: silver left, gold center, bronze right
+  const stands = $derived(
+    [podium.ranks[1], podium.ranks[0], podium.ranks[2]].map((r) => ({
+      rank: r.rank,
+      medal: MEDALS[r.rank - 1],
+      locked: r.names !== null,
+      // locked-empty = place absorbed by a tie above (e.g. joint 2nd leaves no 3rd)
+      absorbed: r.names !== null && r.names.length === 0,
+      players: r.names ? r.names.map((n) => byName[n]).filter(Boolean) : [],
+      h: HEIGHTS[r.rank - 1],
+    }))
   );
 </script>
 
 <div class="podium panel">
-  {#each slots as s, i}
-    {#if i > 0}<div class="sep"></div>{/if}
-    <div class="slot" class:locked={s.locked}>
-      <span class="medal">{s.medal}</span>
-      <span class="who">
-        <span class="names">{s.label}</span>
-        {#if s.locked}
-          <span class="tag">clinched{s.pts != null ? ` · ${s.pts} pts` : ''}</span>
+  {#each stands as s}
+    <div class="stand" class:won={s.locked && !s.absorbed}>
+      <div class="above">
+        {#if s.locked && !s.absorbed}
+          <span class="medal">{s.medal}</span>
+          {#each s.players as p}
+            <div class="pname">{p.name}</div>
+            <div class="pts">{p.total} pts</div>
+            <div class="flags">
+              {#each p.teams as t}
+                <span class="chip {t.status}" title="{t.name}{t.wins ? ` · ${t.wins} won` : ''}">
+                  <span class={flagClass(t.name)}></span>{#if t.wins}<b>{t.wins}</b>{/if}
+                </span>
+              {/each}
+            </div>
+          {/each}
+        {:else if s.absorbed}
+          <span class="medal dim">{s.medal}</span>
+          <div class="pname open">—</div>
         {:else}
-          <span class="tag open">still in play</span>
+          <span class="medal dim">{s.medal}</span>
+          <div class="pname open">TBD</div>
+          <div class="tag">still in play</div>
         {/if}
-      </span>
+      </div>
+      <div class="block b{s.rank}" style="height:{s.h}px"><span class="num">{s.rank}</span></div>
     </div>
   {/each}
 </div>
 
 <style>
   .podium {
-    display: flex; align-items: stretch; justify-content: center;
-    gap: 0; margin-bottom: 16px; padding: 10px 8px;
+    display: flex; align-items: flex-end; justify-content: center;
+    gap: 8px; margin-bottom: 16px; padding: 18px 16px 0;
+    overflow: hidden;
   }
-  .sep { width: 1px; background: var(--line); margin: 4px 2px; }
-  .slot {
-    flex: 1; display: flex; align-items: center; justify-content: center; gap: 10px;
-    padding: 6px 10px; border-radius: 8px; opacity: 0.55; min-width: 0;
+  .stand { flex: 1; max-width: 240px; display: flex; flex-direction: column; justify-content: flex-end; min-width: 0; }
+  .above { display: flex; flex-direction: column; align-items: center; gap: 3px; padding-bottom: 10px; text-align: center; }
+
+  .medal { font-size: 30px; line-height: 1; }
+  .medal.dim { filter: grayscale(1) brightness(0.75); opacity: 0.7; }
+  .pname { font-weight: 800; font-size: 15px; max-width: 100%; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .pname.open { color: var(--muted); font-weight: 600; }
+  .pts { font-size: 12px; font-weight: 700; color: var(--green); font-variant-numeric: tabular-nums; }
+  .tag { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+  .flags { display: flex; flex-wrap: wrap; justify-content: center; gap: 2px; margin-top: 2px; }
+  .chip { display: inline-flex; align-items: center; line-height: 1; padding: 2px 3px; border-radius: 4px; }
+  .chip :global(.fi) { width: 18px; height: 12px; border-radius: 2px; box-shadow: 0 0 0 1px rgba(0,0,0,0.25); }
+  .chip b { font-size: 9px; vertical-align: super; color: var(--green); margin-left: 1px; }
+  .chip.dead { opacity: 0.3; filter: grayscale(1); }
+  .chip.out { opacity: 0.45; filter: grayscale(0.6); }
+  .chip.alive { background: rgba(54,194,117,0.10); }
+
+  .block {
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 8px 8px 0 0;
+    border: 1px solid var(--line); border-bottom: 0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.015));
   }
-  .slot.locked { opacity: 1; }
-  .medal { font-size: 26px; line-height: 1; flex-shrink: 0; }
-  .slot:not(.locked) .medal { filter: grayscale(1) brightness(0.8); }
-  .who { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
-  .names { font-weight: 700; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .slot:not(.locked) .names { color: var(--muted); font-weight: 600; }
-  .tag { font-size: 10px; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); }
-  .tag.open { color: var(--muted); }
+  .num { font-size: 24px; font-weight: 800; color: var(--muted); opacity: 0.55; }
+  .b1 { background: linear-gradient(180deg, rgba(255,206,58,0.28), rgba(255,206,58,0.05)); border-color: rgba(255,206,58,0.45); }
+  .b2 { background: linear-gradient(180deg, rgba(185,196,214,0.22), rgba(185,196,214,0.04)); border-color: rgba(185,196,214,0.4); }
+  .b3 { background: linear-gradient(180deg, rgba(205,143,82,0.22), rgba(205,143,82,0.04)); border-color: rgba(205,143,82,0.45); }
+  .b1 .num { color: var(--gold); }
+  .b2 .num { color: #b9c4d6; }
+  .b3 .num { color: #cd8f52; }
+  .stand:not(.won) .block { opacity: 0.55; }
 
   @media (max-width: 700px) {
-    .podium { flex-direction: column; gap: 2px; padding: 8px 12px; }
-    .sep { width: auto; height: 1px; margin: 2px 4px; }
-    .slot { justify-content: flex-start; padding: 5px 4px; }
-    .medal { font-size: 22px; }
+    .podium { gap: 5px; padding: 14px 8px 0; }
+    .medal { font-size: 24px; }
+    .pname { font-size: 12px; }
+    .pts { font-size: 11px; }
+    .chip { padding: 1px 2px; }
+    .chip :global(.fi) { width: 15px; height: 10px; }
+    .num { font-size: 18px; }
   }
 </style>

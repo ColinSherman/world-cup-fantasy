@@ -44,6 +44,7 @@
   const champNames = $derived(podium?.ranks[0].names ?? null);
   const championPts = $derived(champNames?.length === 1 ? actualPts[champNames[0]] : null);
   const anyLocked = $derived(podium?.ranks.some((r) => r.names !== null) ?? false);
+  const allLocked = $derived(podium?.ranks.every((r) => r.names !== null) ?? false);
 
   function pick(id, team) {
     const next = { ...sandbox };
@@ -146,10 +147,10 @@
   </div>
 
   {#if champNames?.length}
-    <WinnerBanner names={champNames} points={championPts} />
+    <WinnerBanner names={champNames} points={championPts} full={allLocked} />
   {/if}
   {#if anyLocked}
-    <Podium {podium} pts={actualPts} />
+    <Podium {podium} rows={actualRows} />
   {/if}
 
   <!-- Desktop layout: two-column grid -->
