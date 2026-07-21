@@ -22,5 +22,12 @@
  "R16#5": "Spain",
  "R16#6": "Belgium",
  "R16#7": "Argentina",
- "R16#8": "Switzerland"
+ "R16#8": "Switzerland",
+ "QF#1": "France",
+ "QF#2": "Spain",
+ "QF#3": "England",
+ "QF#4": "Argentina",
+ "SF#1": "Spain",
+ "SF#2": "Argentina",
+ "F#1": "Spain"
 }

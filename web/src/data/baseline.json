@@ -29,16 +29,16 @@
  },
  "pool2nd": {
   "Nicole L": 0,
-  "Emily B": 0.18652,
+  "Emily B": 0,
   "Logan S": 0,
-  "Wob W": 0.02071,
-  "Fred S": 0.3455,
+  "Wob W": 0,
+  "Fred S": 1,
   "Noah P": 0,
   "Colin S": 0,
-  "Colton S": 0.22364,
+  "Colton S": 0,
   "Joel P": 0,
   "Justin L": 0,
-  "Paul H": 0.22364,
+  "Paul H": 0,
   "Susan S": 0,
   "Tony M": 0,
   "Erin C": 0,
@@ -56,16 +56,16 @@
  },
  "pool3rd": {
   "Nicole L": 0,
-  "Emily B": 0.18652,
+  "Emily B": 0,
   "Logan S": 0,
-  "Wob W": 0.02071,
+  "Wob W": 0,
   "Fred S": 0,
   "Noah P": 0,
-  "Colin S": 0.3455,
-  "Colton S": 0.22364,
+  "Colin S": 1,
+  "Colton S": 0,
   "Joel P": 0,
   "Justin L": 0,
-  "Paul H": 0.22364,
+  "Paul H": 0,
   "Susan S": 0,
   "Tony M": 0,
   "Erin C": 0,
@@ -82,74 +82,67 @@
   "Taylor S": 0
  },
  "expFinal": {
-  "Nicole L": 61.95195,
-  "Emily B": 49.27681,
-  "Logan S": 46.27681,
-  "Wob W": 42.15716,
-  "Fred S": 48.46224,
-  "Noah P": 45.27681,
-  "Colin S": 47.46224,
-  "Colton S": 49.96201,
-  "Joel P": 39.15716,
-  "Justin L": 46.27681,
-  "Paul H": 49.96201,
-  "Susan S": 38.44246,
-  "Tony M": 38.98994,
-  "Erin C": 37.98994,
-  "Laurel S": 37.15716,
-  "LQ P": 44.46224,
-  "Stephanie D": 37.15716,
-  "Badr H": 36.4723,
-  "Desirae J": 38.6852,
-  "Jake D": 35.44246,
+  "Nicole L": 61,
+  "Emily B": 50,
+  "Logan S": 47,
+  "Wob W": 41,
+  "Fred S": 52,
+  "Noah P": 46,
+  "Colin S": 51,
+  "Colton S": 50,
+  "Joel P": 38,
+  "Justin L": 47,
+  "Paul H": 50,
+  "Susan S": 38,
+  "Tony M": 38,
+  "Erin C": 37,
+  "Laurel S": 36,
+  "LQ P": 48,
+  "Stephanie D": 36,
+  "Badr H": 41,
+  "Desirae J": 38,
+  "Jake D": 35,
   "James M": 32,
-  "KC F": 35.4723,
+  "KC F": 40,
   "Kam M": 29,
-  "Megan T": 36.4723,
+  "Megan T": 41,
   "Taylor S": 26
  },
  "champ": {
-  "Spain": 0.2664,
-  "Argentina": 0.32735,
-  "France": 0.22502,
-  "England": 0.11594,
-  "Belgium": 0.02324,
-  "Morocco": 0.02055,
-  "Switzerland": 0.01074,
-  "Norway": 0.01077
+  "Spain": 1
  },
  "roundProb": {
   "Spain": [
    0,
    0,
-   0.23057,
-   0.3145,
-   0.18853,
-   0.2664
+   0,
+   0,
+   0,
+   1
   ],
   "Argentina": [
    0,
    0,
-   0.16234,
-   0.24374,
-   0.26658,
-   0.32735
+   0,
+   0,
+   1,
+   0
   ],
   "France": [
    0,
    0,
-   0.24334,
-   0.35263,
-   0.17902,
-   0.22502
+   0,
+   1,
+   0,
+   0
   ],
   "England": [
    0,
    0,
-   0.26452,
-   0.43942,
-   0.18013,
-   0.11594
+   0,
+   1,
+   0,
+   0
   ],
   "Brazil": [
    0,
@@ -202,18 +195,18 @@
   "Belgium": [
    0,
    0,
-   0.76944,
-   0.15779,
-   0.04954,
-   0.02324
+   1,
+   0,
+   0,
+   0
   ],
   "Morocco": [
    0,
    0,
-   0.75667,
-   0.17507,
-   0.04772,
-   0.02055
+   1,
+   0,
+   0,
+   0
   ],
   "Japan": [
    1,
@@ -226,10 +219,10 @@
   "Switzerland": [
    0,
    0,
-   0.83766,
-   0.10702,
-   0.04458,
-   0.01074
+   1,
+   0,
+   0,
+   0
   ],
   "Senegal": [
    1,
@@ -242,10 +235,10 @@
   "Norway": [
    0,
    0,
-   0.73548,
-   0.20983,
-   0.04392,
-   0.01077
+   1,
+   0,
+   0,
+   0
   ],
   "Ecuador": [
    1,
