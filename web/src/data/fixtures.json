@@ -1,0 +1,157 @@
+{
+ "R32#1": {
+  "home": "South Africa",
+  "away": "Canada",
+  "score": "0-1"
+ },
+ "R32#2": {
+  "home": "Brazil",
+  "away": "Japan",
+  "score": "2-1"
+ },
+ "R32#3": {
+  "home": "Germany",
+  "away": "Paraguay",
+  "score": "1-1"
+ },
+ "R32#4": {
+  "home": "Netherlands",
+  "away": "Morocco",
+  "score": "1-1"
+ },
+ "R32#5": {
+  "home": "Ivory Coast",
+  "away": "Norway",
+  "score": "1-2"
+ },
+ "R32#6": {
+  "home": "France",
+  "away": "Sweden",
+  "score": "3-0"
+ },
+ "R32#7": {
+  "home": "Mexico",
+  "away": "Ecuador",
+  "score": "2-0"
+ },
+ "R32#8": {
+  "home": "England",
+  "away": "DR Congo",
+  "score": "2-1"
+ },
+ "R32#9": {
+  "home": "Belgium",
+  "away": "Senegal",
+  "score": "3-2"
+ },
+ "R32#11": {
+  "home": "Spain",
+  "away": "Austria",
+  "score": "3-0"
+ },
+ "R32#12": {
+  "home": "Portugal",
+  "away": "Croatia",
+  "score": "2-1"
+ },
+ "R32#13": {
+  "home": "Switzerland",
+  "away": "Algeria",
+  "score": "2-0"
+ },
+ "R32#10": {
+  "home": "United States",
+  "away": "Bosnia and Herzegovina",
+  "score": "2-0"
+ },
+ "R32#14": {
+  "home": "Australia",
+  "away": "Egypt",
+  "score": "1-1"
+ },
+ "R32#15": {
+  "home": "Argentina",
+  "away": "Cape Verde",
+  "score": "3-2"
+ },
+ "R32#16": {
+  "home": "Colombia",
+  "away": "Ghana",
+  "score": "1-0"
+ },
+ "R16#1": {
+  "home": "Canada",
+  "away": "Morocco",
+  "score": "0-3"
+ },
+ "R16#2": {
+  "home": "Paraguay",
+  "away": "France",
+  "score": "0-1"
+ },
+ "R16#3": {
+  "home": "Brazil",
+  "away": "Norway",
+  "score": "1-2"
+ },
+ "R16#4": {
+  "home": "Mexico",
+  "away": "England",
+  "score": "2-3"
+ },
+ "R16#5": {
+  "home": "Portugal",
+  "away": "Spain",
+  "score": "0-1"
+ },
+ "R16#6": {
+  "home": "United States",
+  "away": "Belgium",
+  "score": "1-4"
+ },
+ "R16#7": {
+  "home": "Argentina",
+  "away": "Egypt",
+  "score": "3-2"
+ },
+ "R16#8": {
+  "home": "Switzerland",
+  "away": "Colombia",
+  "score": "0-0"
+ },
+ "QF#1": {
+  "home": "France",
+  "away": "Morocco",
+  "score": "2-0"
+ },
+ "QF#2": {
+  "home": "Spain",
+  "away": "Belgium",
+  "score": "2-1"
+ },
+ "QF#3": {
+  "home": "Norway",
+  "away": "England",
+  "score": "1-2"
+ },
+ "QF#4": {
+  "home": "Argentina",
+  "away": "Switzerland",
+  "score": "3-1"
+ },
+ "SF#1": {
+  "home": "France",
+  "away": "Spain",
+  "score": "0-2"
+ },
+ "SF#2": {
+  "home": "England",
+  "away": "Argentina",
+  "score": "1-2"
+ },
+ "F#1": {
+  "home": "Spain",
+  "away": "Argentina",
+  "score": "1-0"
+ }
+}

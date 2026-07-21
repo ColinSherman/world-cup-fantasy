@@ -9,10 +9,12 @@ account_id = "a92ff6c4b72094e5030585f2363b940a"
 binding = "WCF"
 id = "c7c77b148d794555b01380a767db9a83"
 
-# Warmer cron: every 2 min keeps KV fresh even with no viewers. Active viewers
-# also trigger on-demand background refreshes (see /results in src/index.js).
-[triggers]
-crons = ["*/2 * * * *"]
+# DECOMMISSIONED — the 2026 tournament is over and the frontend now serves frozen
+# static results, so this Worker is no longer deployed. The warmer cron that kept KV
+# fresh during the tournament has been removed to avoid any ongoing usage. Kept in the
+# repo to document the live-data architecture. To retire the deployed instance:
+#   cd worker && npx wrangler delete
+# (Previously: crons = ["*/2 * * * *"] — a 2-min warmer, plus on-demand refreshes.)
 
 # Non-secret config. Secrets (REFRESH_SECRET) come from
 # .dev.vars locally and `wrangler secret put` in production.

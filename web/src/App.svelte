@@ -2,21 +2,23 @@
   import players from './data/players.json';
   import baseline from './data/baseline.json';
   import schedule from './data/schedule.json';
-  import initialResults from './data/initialResults.json';
+  import results from './data/results.json';
+  import fixtures from './data/fixtures.json';
   import { resolveBracket, sanitizeResults, gamesWonByTeam } from './lib/bracket.js';
   import { standings } from './lib/scoring.js';
   import { eliminatedList, pathInfo } from './lib/elimination.js';
   import { runSim } from './lib/simClient.js';
   import { podiumLocks } from './lib/sim.js';
-  import { onMount } from 'svelte';
   import Bracket from './lib/Bracket.svelte';
   import Leaderboard from './lib/Leaderboard.svelte';
   import PathToVictory from './lib/PathToVictory.svelte';
   import WinnerBanner from './lib/WinnerBanner.svelte';
   import Podium from './lib/Podium.svelte';
 
-  // live (actual) knockout results — seeded with a snapshot, kept fresh by the worker
-  let actual = $state(initialResults);
+  // The 2026 tournament is complete: the actual knockout results are frozen static
+  // data (no more live feed). Everything below is still fully interactive — the
+  // sandbox lets you rewrite the bracket and re-run the in-browser Monte Carlo.
+  const actual = results;
   // per-user hypothetical picks layered on top
   let sandbox = $state({});
   let identity = $state(localStorage.getItem('wcf_me') || '');
@@ -62,42 +64,6 @@
     if (name) mobileTab = 'path'; // jump to path when you pick yourself
   }
 
-  const RESULTS_URL = import.meta.env.VITE_RESULTS_URL ||
-    (import.meta.env.DEV ? 'http://localhost:8787/results' : 'https://wcf-results.colinlsherman.workers.dev/results');
-  let liveFixtures = $state({});
-  async function loadResults() {
-    if (!RESULTS_URL) return;
-    try {
-      const d = await (await fetch(RESULTS_URL)).json();
-      // only reassign on real change — keeps polling from re-running sims and podium checks
-      if (d.results && JSON.stringify(d.results) !== JSON.stringify(actual)) actual = d.results;
-      if (d.fixtures) liveFixtures = d.fixtures;
-    } catch { /* worker not up / offline — keep current */ }
-  }
-
-  // Adaptive polling to stay well under the Worker request cap:
-  //  • fast (20s) only while a match is actually live,
-  //  • slow (2 min) otherwise — still notices a kickoff within ~2 min,
-  //  • fully paused while the tab is hidden (forgotten/background tabs = 0 requests),
-  //    with an immediate refresh the moment it becomes visible again.
-  const LIVE_MS = 20000;
-  const IDLE_MS = 120000;
-  let pollTimer;
-  const anyLive = () => Object.values(liveFixtures).some((f) => f?.state === 'in');
-  function scheduleNext() {
-    clearTimeout(pollTimer);
-    if (document.hidden) return; // paused; visibilitychange resumes it
-    pollTimer = setTimeout(tick, anyLive() ? LIVE_MS : IDLE_MS);
-  }
-  async function tick() { await loadResults(); scheduleNext(); }
-  function onVisibility() { if (!document.hidden) { loadResults(); scheduleNext(); } }
-  onMount(() => {
-    loadResults();
-    scheduleNext();
-    document.addEventListener('visibilitychange', onVisibility);
-    return () => { clearTimeout(pollTimer); document.removeEventListener('visibilitychange', onVisibility); };
-  });
-
   let simToken = 0;
   $effect(() => {
     const fixed = effective;
@@ -116,10 +82,8 @@
   let simTokenA = 0;
   $effect(() => {
     if (!sandboxActive) { projActual = baseline; return; }
-    // snapshot: the raw $state proxy can't survive postMessage's structured clone
-    const a = $state.snapshot(actual);
     const token = ++simTokenA;
-    runSim(players, a, { n: 100000, seed: 999 }).then((res) => {
+    runSim(players, actual, { n: 100000, seed: 999 }).then((res) => {
       if (token === simTokenA) projActual = res;
     });
   });
@@ -131,7 +95,7 @@
       <div class="bar"></div>
       <div>
         <h1>World Cup Fantasy</h1>
-        <div class="sub">Live table · sandbox bracket · path to victory</div>
+        <div class="sub">2026 · final results · sandbox bracket · path to victory</div>
       </div>
     </div>
     <div class="spacer"></div>
@@ -159,7 +123,7 @@
       <div class="panel">
         <div class="section-h">
           <h2>Leaderboard</h2>
-          <span class="note muted">{sandboxActive ? 'projected under sandbox' : 'live results'}</span>
+          <span class="note muted">{sandboxActive ? 'projected under sandbox' : 'final standings'}</span>
           <div class="spacer"></div>
           <span class="note muted">{simBusy ? 'simulating…' : `${(proj.n / 1000) | 0}k sims`}</span>
         </div>
@@ -173,7 +137,7 @@
           <div class="spacer"></div>
           <span class="note muted">kickoffs in local venue time</span>
         </div>
-        <Bracket {resolved} {pick} {ownedTeams} {schedule} {actual} {liveFixtures} />
+        <Bracket {resolved} {pick} {ownedTeams} {schedule} {actual} {fixtures} />
       </div>
     </div>
 
@@ -206,7 +170,7 @@
           <div class="spacer"></div>
           <span class="note muted">tap to pick</span>
         </div>
-        <Bracket {resolved} {pick} {ownedTeams} {schedule} {actual} {liveFixtures} />
+        <Bracket {resolved} {pick} {ownedTeams} {schedule} {actual} {fixtures} />
       </div>
     {:else}
       <div class="panel">
