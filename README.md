@@ -1,5 +1,7 @@
 # World Cup 2026 Fantasy Pool
 
+**Live demo → [wcf-fantasy.pages.dev](https://wcf-fantasy.pages.dev)**
+
 An interactive dashboard for a 25-person World Cup fantasy pool. Each player drafted
 six national teams and earns points as those teams advance through the knockout
 bracket. The app ran live throughout the 2026 tournament and is now preserved as a
@@ -105,5 +107,6 @@ retire the deployed instance, run `cd worker && npx wrangler delete`.
 
 ## Deploy
 
-The frontend is a static bundle. On Cloudflare Pages: root directory `web`, build
+The frontend is a static bundle, deployed to Cloudflare Pages at
+[wcf-fantasy.pages.dev](https://wcf-fantasy.pages.dev): root directory `web`, build
 command `npm run build`, output directory `dist`. Any static host works equally well.
